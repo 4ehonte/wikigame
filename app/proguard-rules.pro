@@ -19,3 +19,36 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+-keepattributes Signature
+-keepattributes *Annotation*
+
+# OkHTTP
+-dontwarn javax.annotation.**
+-keepnames class okhttp3.internal.publicsuffix.PublicSuffixDatabase
+-dontwarn org.codehaus.mojo.animal_sniffer.*
+-dontwarn okhttp3.internal.platform.ConscryptPlatform
+
+# Models
+-keep class ua.boberproduction.wikigame.repository.restmodels.** { *; }
+
+# Moshi
+-dontwarn okio.**
+-dontwarn javax.annotation.**
+-keepclasseswithmembers class * {
+    @com.squareup.moshi.* <methods>;
+}
+-keep @com.squareup.moshi.JsonQualifier interface *
+-keep class **JsonAdapter {
+    <init>(...);
+    <fields>;
+}
+-keepnames @com.squareup.moshi.JsonClass class *
+
+# Retrofit
+-dontwarn retrofit.**
+-dontwarn retrofit2.Platform$Java8
+
+# AdvancedWebView
+-keep class * extends android.webkit.WebChromeClient { *; }
+-dontwarn im.delight.android.webview.**

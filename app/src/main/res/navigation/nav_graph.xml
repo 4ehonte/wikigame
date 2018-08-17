@@ -23,6 +23,22 @@
         android:id="@+id/pregameFragment"
         android:name="ua.boberproduction.wikigame.ui.pregame.PregameFragment"
         android:label="PregameFragment"
-        tools:layout="@layout/fragment_pregame" />
+        tools:layout="@layout/fragment_pregame" >
+        <action
+            android:id="@+id/action_pregameFragment_to_gameFragment"
+            app:destination="@id/gameFragment"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/exit_to_left"
+            app:popEnterAnim="@anim/enter_from_left"
+            app:popExitAnim="@anim/exit_to_right" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/gameFragment"
+        android:name="ua.boberproduction.wikigame.ui.game.GameFragment"
+        android:label="GameFragment"
+        tools:layout="@layout/fragment_game" >
+    </fragment>
 
 </navigation>

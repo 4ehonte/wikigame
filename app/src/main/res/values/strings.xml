@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">wikigame</string>
     <string name="btn_play">Play</string>
+    <string name="start">Start</string>
 </resources>

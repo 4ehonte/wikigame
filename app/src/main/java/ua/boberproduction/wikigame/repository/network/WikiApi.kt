@@ -1,4 +1,4 @@
-package ua.boberproduction.wikigame.network
+package ua.boberproduction.wikigame.repository.network
 
 interface WikiApi {
     companion object {

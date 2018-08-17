@@ -7,6 +7,7 @@ import dagger.Module
 import dagger.multibindings.IntoMap
 import ua.boberproduction.wikigame.di.ViewModelFactory
 import ua.boberproduction.wikigame.di.ViewModelKey
+import ua.boberproduction.wikigame.ui.game.GameViewModel
 import ua.boberproduction.wikigame.ui.menu.MainMenuViewModel
 import ua.boberproduction.wikigame.ui.pregame.PregameViewModel
 
@@ -26,4 +27,9 @@ internal abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(PregameViewModel::class)
     internal abstract fun bindPregameViewModel(pregameViewModel: PregameViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(GameViewModel::class)
+    internal abstract fun bindGameViewModel(gameViewModel: GameViewModel): ViewModel
 }

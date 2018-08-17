@@ -5,8 +5,7 @@ import ua.boberproduction.wikigame.util.SchedulerProvider
 import ua.boberproduction.wikigame.util.SingleLiveEvent
 import javax.inject.Inject
 
-class MainMenuViewModel @Inject constructor(
-        private val schedulerProvider: SchedulerProvider) : ViewModel() {
+class MainMenuViewModel @Inject constructor() : ViewModel() {
 
     val playBtnClick = SingleLiveEvent<Unit>()
 
