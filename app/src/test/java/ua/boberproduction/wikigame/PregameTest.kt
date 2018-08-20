@@ -16,7 +16,6 @@ import org.mockito.Mockito
 import ua.boberproduction.wikigame.repository.Repository
 import ua.boberproduction.wikigame.ui.pregame.PregameViewModel
 
-
 class PregameTest {
     lateinit var viewModel: PregameViewModel
     private val repository = mock<Repository>()
