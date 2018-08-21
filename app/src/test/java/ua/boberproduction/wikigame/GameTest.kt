@@ -17,6 +17,7 @@ import org.junit.runner.RunWith
 import org.mockito.Mockito
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.RuntimeEnvironment
+import org.robolectric.RuntimeEnvironment.application
 import org.robolectric.annotation.Config
 import ua.boberproduction.wikigame.repository.Repository
 import ua.boberproduction.wikigame.repository.Resource
@@ -40,7 +41,7 @@ class GameTest {
     }
 
     @Test
-    fun onCreateLoadsArticle() {
+    fun `after creation, the first article starts to load`() {
         val observer = mock<Observer<String>>()
         viewModel.url.observeForever(observer)
 
@@ -53,22 +54,38 @@ class GameTest {
     }
 
     @Test
-    fun clickingOnLinkUpdatesTitle() {
-        val observer = mock<Observer<String>>()
-        viewModel.title.observeForever(observer)
+    fun `after the first article is loaded, timer starts`() {
+        viewModel = GameViewModel(repository, TestSchedulerProvider(), TestPreferenceProvider(), application)
+        assert(viewModel.timer == null || viewModel.timer!!.time == 0L)
 
-        val linkUrl = "https://en.m.wikipedia.org/wiki/Goose"
-        viewModel.onLinkClicked(linkUrl)
-
-        argumentCaptor<String>().apply {
-            verify(observer).onChanged(capture())
-
-            assert(firstValue == "Goose")
-        }
+        viewModel.pageLoaded("wikiurl", "wiki title")
+        Thread.sleep(1100)
+        assert(viewModel.timer != null && viewModel.timer!!.time > 0L)
     }
 
     @Test
-    fun pageLoadedStartsTimer() {
+    fun `if timer if already running, don't change it after page loaded`() {
+        viewModel.initTimer()
+        val timer1 = viewModel.timer
+        val time1 = viewModel.timer?.time
 
+        viewModel.pageLoaded("wikiurl", "wiki title")
+        val timer2 = viewModel.timer
+        val time2 = viewModel.timer?.time
+
+        assert(timer1 == timer2)
+        assert(time1!! >= time2!!)
     }
+
+    @Test
+    fun `if user clicks on the target link, the game is finished`() {
+        val viewModelSpy = Mockito.spy(viewModel)
+        val targetArticle = "target shmarget"
+        viewModelSpy.onCreate("Blabla" to targetArticle)
+
+        viewModelSpy.onLinkClicked("https://en.wikipedia.org/wiki/target shmarget")
+        verify(viewModelSpy).finishGame()
+    }
+
+
 }

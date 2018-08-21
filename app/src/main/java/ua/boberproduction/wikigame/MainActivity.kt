@@ -5,6 +5,7 @@ import androidx.navigation.findNavController
 import dagger.android.support.DaggerAppCompatActivity
 
 class MainActivity : DaggerAppCompatActivity() {
+    var backPressListener: OnBackPressListener? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -14,7 +15,14 @@ class MainActivity : DaggerAppCompatActivity() {
     override fun onSupportNavigateUp() = findNavController(R.id.nav_host_fragment).navigateUp()
 
     override fun onBackPressed() {
-
-        super.onBackPressed()
+        if (backPressListener?.onBackPressed() != true)
+            super.onBackPressed()
     }
+}
+
+interface OnBackPressListener{
+    /**
+     * Returns true if back press was consumed.
+     */
+    fun onBackPressed(): Boolean
 }

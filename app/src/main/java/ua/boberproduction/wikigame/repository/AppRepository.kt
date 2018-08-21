@@ -14,7 +14,7 @@ class AppRepository(private val wikiApi: WikiApi) : Repository {
     }
 
     override fun getPhrases(level: Int): Single<Pair<String, String>> {
-        return Single.just("Barcelona" to "Albert Einstein")
+        return Single.just("Barcelona" to "Spain")
     }
 
 }

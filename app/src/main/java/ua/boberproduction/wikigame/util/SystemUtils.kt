@@ -28,8 +28,4 @@ fun View.snackbar(text: String, length: Int = Snackbar.LENGTH_SHORT, colorResour
     if (colorResource != -1) snackbar.view.setBackgroundResource(colorResource)
     snackbar.view.setOnClickListener { snackbar.dismiss() }
     snackbar.show()
-
-    fun View.loading(toggle: Boolean) {
-
-    }
 }

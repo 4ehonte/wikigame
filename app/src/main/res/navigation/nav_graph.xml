@@ -39,6 +39,21 @@
         android:name="ua.boberproduction.wikigame.ui.game.GameFragment"
         android:label="GameFragment"
         tools:layout="@layout/fragment_game" >
+        <action
+            android:id="@+id/action_gameFragment_to_resultsFragment"
+            app:destination="@id/resultsFragment"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/exit_to_left"
+            app:popEnterAnim="@anim/enter_from_left"
+            app:popExitAnim="@anim/exit_to_right"
+            app:popUpTo="@+id/mainMenuFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/resultsFragment"
+        android:name="ua.boberproduction.wikigame.ui.results.ResultsFragment"
+        android:label="ResultsFragment"
+        tools:layout="@layout/fragment_results" >
     </fragment>
 
 </navigation>

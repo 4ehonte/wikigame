@@ -4,6 +4,8 @@
 
     <data>
 
+        <import type="android.view.View" />
+
         <variable
             name="viewModel"
             type="ua.boberproduction.wikigame.ui.game.GameViewModel" />
@@ -34,10 +36,11 @@
         <ImageView
             android:id="@+id/arrow"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginBottom="8dp"
             android:layout_marginEnd="24dp"
-            android:layout_marginTop="4dp"
             android:layout_marginStart="24dp"
+            android:layout_marginTop="8dp"
             android:src="@drawable/ic_arrow_right"
             app:layout_constraintBottom_toBottomOf="@id/target_tv"
             app:layout_constraintEnd_toEndOf="parent"
@@ -45,13 +48,18 @@
 
         <TextView
             android:id="@+id/title_tv"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:layout_marginTop="4dp"
             android:text="@{viewModel.title}"
+            android:layout_marginStart="24dp"
+            android:ellipsize="end"
+            android:gravity="end"
+            android:maxLines="1"
             android:textColor="@color/white"
             android:textSize="12sp"
+            app:layout_constraintStart_toEndOf="@id/menu"
             app:layout_constraintBottom_toTopOf="@id/target_tv"
             app:layout_constraintEnd_toStartOf="@id/arrow"
             app:layout_constraintTop_toTopOf="@id/toolbar"
@@ -59,13 +67,18 @@
 
         <TextView
             android:id="@+id/target_tv"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:ellipsize="end"
+            android:gravity="end"
+            android:maxLines="1"
             android:text="@{viewModel.target}"
             android:textColor="@color/white"
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="@id/toolbar"
             app:layout_constraintEnd_toEndOf="@id/title_tv"
+            app:layout_constraintStart_toEndOf="@id/menu"
             app:layout_constraintTop_toBottomOf="@id/title_tv"
             tools:text="Target phrase" />
 
@@ -73,6 +86,7 @@
             android:id="@+id/webview"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:visibility="@{viewModel.progressBarVisibility ? View.INVISIBLE : View.VISIBLE}"
             app:layout_constraintBottom_toTopOf="@id/footer"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -90,11 +104,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="24dp"
+            android:text="@{viewModel.time}"
             android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="@id/footer"
             app:layout_constraintEnd_toEndOf="@id/footer"
             app:layout_constraintTop_toTopOf="@id/footer"
-            android:text="@{viewModel.time}"
             tools:text="00:49" />
 
         <TextView
@@ -102,12 +116,22 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
-            tools:text="4 clicks"
             android:text="@{@plurals/clicks(viewModel.clicksCounter, viewModel.clicksCounter)}"
             android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="@id/footer"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/footer" />
+            app:layout_constraintTop_toTopOf="@id/footer"
+            tools:text="4 clicks" />
+
+        <ProgressBar
+            android:id="@+id/progressbar"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:visibility="@{viewModel.progressBarVisibility ? View.VISIBLE : View.GONE}"
+            app:layout_constraintBottom_toTopOf="@id/footer"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

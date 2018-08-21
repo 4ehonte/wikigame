@@ -5,20 +5,30 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.webkit.WebSettings
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.NavHostFragment
 import im.delight.android.webview.AdvancedWebView
 import kotlinx.android.synthetic.main.fragment_game.*
 import ua.boberproduction.wikigame.BaseFragment
+import ua.boberproduction.wikigame.MainActivity
+import ua.boberproduction.wikigame.OnBackPressListener
 import ua.boberproduction.wikigame.R
 import ua.boberproduction.wikigame.databinding.FragmentGameBinding
 import ua.boberproduction.wikigame.ui.pregame.PregameFragment
 
-class GameFragment : BaseFragment() {
+class GameFragment : BaseFragment(), OnBackPressListener {
     lateinit var binding: FragmentGameBinding
     lateinit var viewModel: GameViewModel
+
+    companion object {
+        const val CLICKS_COUNT = "clicks count"
+        const val TIME_ELAPSED = "time elapsed"
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_game, container, false)
@@ -28,6 +38,9 @@ class GameFragment : BaseFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+
+        (activity!! as MainActivity).backPressListener = this
+
         viewModel = getViewModel()
         binding.viewModel = viewModel
 
@@ -36,7 +49,9 @@ class GameFragment : BaseFragment() {
         val startPhrase = arguments!!.getString(PregameFragment.START_PHRASE)
         val targetPhrase = arguments!!.getString(PregameFragment.TARGET_PHRASE)
 
-        viewModel.onCreate(startPhrase to targetPhrase)
+        if (savedInstanceState == null)
+            viewModel.onCreate(startPhrase to targetPhrase)
+
         viewModel.url.observe(this, Observer {
             if (!it.isNullOrEmpty()) loadArticle(it)
         })
@@ -44,6 +59,17 @@ class GameFragment : BaseFragment() {
         viewModel.errorMessage.observe(this, Observer {
             if (!it.isNullOrEmpty()) showError(it)
         })
+
+        viewModel.showResults.observe(this, Observer {
+            showResultsFragment()
+        })
+    }
+
+    private fun showResultsFragment() {
+        val bundle = bundleOf(
+                CLICKS_COUNT to viewModel.clicksCounter.value,
+                TIME_ELAPSED to viewModel.timer?.time)
+        NavHostFragment.findNavController(this).navigate(R.id.action_gameFragment_to_resultsFragment, bundle)
     }
 
     private fun configureWebView() {
@@ -55,10 +81,12 @@ class GameFragment : BaseFragment() {
             }
         }
 
+        webview.settings.cacheMode = WebSettings.LOAD_CACHE_ELSE_NETWORK
+
         webview.setListener(activity, object : AdvancedWebView.Listener {
-            override fun onPageFinished(url: String?) {
+            override fun onPageFinished(url: String) {
                 hideWebPageElements()
-                viewModel.pageLoaded()
+                viewModel.pageLoaded(url, webview.title)
             }
 
             override fun onPageError(errorCode: Int, description: String?, failingUrl: String?) {
@@ -89,8 +117,11 @@ class GameFragment : BaseFragment() {
         if (webview.url != url) webview.loadUrl(url)
     }
 
-    override fun onDestroy() {
-        viewModel.destroy()
-        super.onDestroy()
+    override fun onBackPressed(): Boolean {
+        return if (isVisible && webview.canGoBack()) {
+            webview.stopLoading()
+            webview.goBack()
+            true
+        } else false
     }
 }

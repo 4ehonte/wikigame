@@ -19,11 +19,13 @@
             android:id="@+id/phrase_start"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
             android:gravity="center"
             android:textColor="@color/white"
             android:textSize="18sp"
             app:layout_constraintBottom_toTopOf="@id/down_arrow"
             app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="packed"
             tools:text="Starting phrase" />
 
         <ImageView
@@ -41,6 +43,7 @@
             android:id="@+id/phrase_target"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             android:gravity="center"
             android:textColor="@color/white"
             android:textSize="18sp"
@@ -53,9 +56,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
+            android:onClick="@{v -> viewModel.startButtonClicked()}"
             android:text="@string/start"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:onClick="@{v -> viewModel.startButtonClicked()}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
