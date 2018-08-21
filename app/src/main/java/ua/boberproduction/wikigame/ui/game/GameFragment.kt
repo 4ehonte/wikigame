@@ -27,7 +27,7 @@ class GameFragment : BaseFragment(), OnBackPressListener {
 
     companion object {
         const val CLICKS_COUNT = "clicks count"
-        const val TIME_ELAPSED = "time elapsed"
+        const val SECONDS_ELAPSED = "time elapsed"
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -68,7 +68,7 @@ class GameFragment : BaseFragment(), OnBackPressListener {
     private fun showResultsFragment() {
         val bundle = bundleOf(
                 CLICKS_COUNT to viewModel.clicksCounter.value,
-                TIME_ELAPSED to viewModel.timer?.time)
+                SECONDS_ELAPSED to viewModel.timer?.time)
         NavHostFragment.findNavController(this).navigate(R.id.action_gameFragment_to_resultsFragment, bundle)
     }
 
