@@ -8,6 +8,7 @@ import androidx.databinding.DataBindingUtil
 import ua.boberproduction.wikigame.BaseFragment
 import ua.boberproduction.wikigame.R
 import ua.boberproduction.wikigame.databinding.FragmentResultsBinding
+import ua.boberproduction.wikigame.models.Result
 import ua.boberproduction.wikigame.ui.game.GameFragment
 
 class ResultsFragment : BaseFragment() {
@@ -26,8 +27,7 @@ class ResultsFragment : BaseFragment() {
         viewModel = getViewModel()
         binding.viewModel = viewModel
 
-        val clicks = arguments!!.getInt(GameFragment.CLICKS_COUNT)
-        val seconds = arguments!!.getInt(GameFragment.SECONDS_ELAPSED)
-        viewModel.onCreate(clicks, seconds)
+        val result = arguments!!.getParcelable<Result>(GameFragment.RESULTS)
+        viewModel.onCreate(result)
     }
 }

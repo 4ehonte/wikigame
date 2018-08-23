@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <integer-array name="rank_points">
+        <item>0</item>
+        <item>5</item>
+        <item>10</item>
+        <item>20</item>
+        <item>1000</item>
+        <item>2500</item>
+        <item>5000</item>
+    </integer-array>
+
+    <string-array name="rank_names">
+        <item>Toddler</item>
+        <item>Student</item>
+        <item>Graduate</item>
+        <item>Professor</item>
+        <item>Superhero</item>
+        <item>Cyborg</item>
+        <item>Supermind</item>
+    </string-array>
+
+    <integer-array name="rank_icons">
+        <item>@drawable/ic_toddler</item>
+        <item>@drawable/ic_student</item>
+        <item>@drawable/ic_graduate</item>
+        <item>@drawable/ic_professor</item>
+        <item>@drawable/ic_superhero</item>
+        <item>@drawable/ic_cyborg</item>
+        <item>@drawable/ic_superhero</item>
+    </integer-array>
+
+</resources>

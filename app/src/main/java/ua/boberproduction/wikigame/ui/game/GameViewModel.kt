@@ -8,6 +8,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import org.jetbrains.anko.AnkoLogger
 import ua.boberproduction.wikigame.R
+import ua.boberproduction.wikigame.models.Result
 import ua.boberproduction.wikigame.repository.PreferencesProvider
 import ua.boberproduction.wikigame.repository.Repository
 import ua.boberproduction.wikigame.util.SchedulerProvider
@@ -29,7 +30,7 @@ class GameViewModel @Inject constructor(
     val time = MutableLiveData<String>()
     val errorMessage = SingleLiveEvent<String>()
     val progressBarVisibility = SingleLiveEvent<Boolean>()
-    val showResults = SingleLiveEvent<Unit>()
+    val showResults = SingleLiveEvent<Result>()
 
     // game phrases: initial and target phrase.
     lateinit var phrases: Pair<String, String>
@@ -111,6 +112,7 @@ class GameViewModel @Inject constructor(
 
     fun finishGame() {
         timer?.stop()
-        showResults.call()
+        val result = Result(preferencesProvider.getUserLevel(), phrases.first, phrases.second, clicksCounter.value ?: 0, timer?.time?.toInt() ?: 0, System.currentTimeMillis())
+        showResults.value = result
     }
 }

@@ -19,6 +19,7 @@ import ua.boberproduction.wikigame.MainActivity
 import ua.boberproduction.wikigame.OnBackPressListener
 import ua.boberproduction.wikigame.R
 import ua.boberproduction.wikigame.databinding.FragmentGameBinding
+import ua.boberproduction.wikigame.models.Result
 import ua.boberproduction.wikigame.ui.pregame.PregameFragment
 
 class GameFragment : BaseFragment(), OnBackPressListener {
@@ -26,8 +27,7 @@ class GameFragment : BaseFragment(), OnBackPressListener {
     lateinit var viewModel: GameViewModel
 
     companion object {
-        const val CLICKS_COUNT = "clicks count"
-        const val SECONDS_ELAPSED = "time elapsed"
+        const val RESULTS = "results"
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -61,14 +61,12 @@ class GameFragment : BaseFragment(), OnBackPressListener {
         })
 
         viewModel.showResults.observe(this, Observer {
-            showResultsFragment()
+            if (it != null) showResultsFragment(it)
         })
     }
 
-    private fun showResultsFragment() {
-        val bundle = bundleOf(
-                CLICKS_COUNT to viewModel.clicksCounter.value,
-                SECONDS_ELAPSED to viewModel.timer?.time)
+    private fun showResultsFragment(result: Result) {
+        val bundle = bundleOf(RESULTS to result)
         NavHostFragment.findNavController(this).navigate(R.id.action_gameFragment_to_resultsFragment, bundle)
     }
 
