@@ -1,4 +1,4 @@
-package ua.boberproduction.wikigame.ui.menu
+package ua.boberproduction.wikigame.mvvm.menu
 
 import androidx.lifecycle.ViewModel
 import ua.boberproduction.wikigame.util.SchedulerProvider

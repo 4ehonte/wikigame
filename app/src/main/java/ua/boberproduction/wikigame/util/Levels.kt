@@ -1,58 +1,56 @@
 package ua.boberproduction.wikigame.util
 
-import android.content.Context
-import ua.boberproduction.wikigame.R
 import ua.boberproduction.wikigame.models.Level
+import ua.boberproduction.wikigame.repository.ResourcesRepository
 
 /**
  * Utility class containing app user level preferences and supporting methods.
  */
-object Levels {
+class Levels(private val resourcesRepository: ResourcesRepository) {
 
-    fun getUserLevel(context: Context, points: Int): Level {
-        val rank = getRankName(context, points)
-        val icon = getRankIconResource(context, points)
-        val level = getCurrentLevel(context, points)
+    fun getUserLevel(points: Int): Level {
+        val rank = getRankName(points)
+        val icon = getRankIconResource(points)
+        val level = getCurrentLevel(points)
         return Level(level, points, rank, icon)
     }
 
     /**
      * Returns a number of the user's level, according to given points.
      */
-    fun getCurrentLevel(context: Context, points: Int): Int {
-        val levelPoints = getLevelPoints(context)
+    fun getCurrentLevel(points: Int): Int {
+        val levelPoints = resourcesRepository.getLevelPoints()
 
         var level = 0
-        while (points >= levelPoints[level + 1]) {
+        while (points >= levelPoints[level]) {
             level++
         }
 
         return level
     }
 
-    fun getRankName(context: Context, points: Int): String {
-        val currentLevel = getCurrentLevel(context, points)
-        val ranks = context.resources.getStringArray(R.array.rank_names)
+    fun getRankName(points: Int): String {
+        val currentLevel = getCurrentLevel(points)
+        val ranks = resourcesRepository.getRankNames()
 
         return ranks[currentLevel - 1]
     }
 
-    fun getRankIconResource(context: Context, points: Int): Int {
-        val currentLevel = getCurrentLevel(context, points)
-        val icons = context.resources.getIntArray(R.array.rank_icons)
+    fun getRankIconResource(points: Int): Int {
+        val currentLevel = getCurrentLevel(points)
+        val icons = resourcesRepository.getRankIcons()
 
         return icons[currentLevel - 1]
     }
 
-    fun getPointsToNextLevel(context: Context, points: Int): Int {
-        val level = getCurrentLevel(context, points)
-        val levelPoints = getLevelPoints(context)
-
-        val nextLevelPoints = levelPoints[level + 1]
-        return nextLevelPoints - points
+    fun getPointsToNextLevel(level: Int): Int {
+        val levelPoints = resourcesRepository.getLevelPoints()
+        return levelPoints[level]
     }
 
-    fun getLevelPoints(context: Context): IntArray {
-        return context.resources.getIntArray(R.array.rank_points)
+    fun getLevelStartingPoints(level: Int): Int {
+        val previousLevel = if (level > 0) level - 1 else 0
+        val levelPoints = resourcesRepository.getLevelPoints()
+        return levelPoints[previousLevel]
     }
 }

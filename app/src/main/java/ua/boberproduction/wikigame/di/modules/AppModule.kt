@@ -4,10 +4,7 @@ import android.app.Application
 import androidx.room.Room
 import dagger.Module
 import dagger.Provides
-import ua.boberproduction.wikigame.repository.AppPreferencesProvider
-import ua.boberproduction.wikigame.repository.AppRepository
-import ua.boberproduction.wikigame.repository.PreferencesProvider
-import ua.boberproduction.wikigame.repository.Repository
+import ua.boberproduction.wikigame.repository.*
 import ua.boberproduction.wikigame.repository.local.GameDataBase
 import ua.boberproduction.wikigame.repository.local.ResultsDao
 import ua.boberproduction.wikigame.repository.network.WikiApi
@@ -20,7 +17,7 @@ class AppModule {
 
     @Provides
     @Singleton
-    fun providesRepository(apiService: WikiApi, dataBase: GameDataBase): Repository = AppRepository(apiService, dataBase)
+    fun providesDataRepository(apiService: WikiApi, dataBase: GameDataBase, application: Application): DataRepository = AppDataRepository(apiService, dataBase, application)
 
     @Provides
     @Singleton
@@ -28,7 +25,7 @@ class AppModule {
 
     @Provides
     @Singleton
-    fun providePreferencesProvider(application: Application): PreferencesProvider = AppPreferencesProvider(application)
+    fun providePreferencesRepository(application: Application): PreferencesRepository = AppPreferencesRepository(application)
 
     @Provides
     @Singleton
@@ -42,4 +39,8 @@ class AppModule {
     @Provides
     @Singleton
     fun provideResultsDao(db: GameDataBase): ResultsDao = db.resultsDao()
+
+    @Provides
+    @Singleton
+    fun providesResourceRepository(application: Application): ResourcesRepository = AppResRepository(application)
 }

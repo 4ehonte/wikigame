@@ -4,7 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/main_background"
     tools:context=".MainActivity">
+
+    <ua.boberproduction.wikigame.util.views.TextScrollerBackgroundView
+        android:id="@+id/text_scroller_bkg"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
     <fragment
         android:id="@+id/nav_host_fragment"

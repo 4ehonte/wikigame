@@ -3,10 +3,10 @@ package ua.boberproduction.wikigame.di
 
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
-import ua.boberproduction.wikigame.ui.game.GameFragment
-import ua.boberproduction.wikigame.ui.menu.MainMenuFragment
-import ua.boberproduction.wikigame.ui.pregame.PregameFragment
-import ua.boberproduction.wikigame.ui.results.ResultsFragment
+import ua.boberproduction.wikigame.mvvm.game.GameFragment
+import ua.boberproduction.wikigame.mvvm.menu.MainMenuFragment
+import ua.boberproduction.wikigame.mvvm.pregame.PregameFragment
+import ua.boberproduction.wikigame.mvvm.postgame.ResultsFragment
 
 
 @Module

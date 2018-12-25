@@ -1,4 +1,4 @@
-package ua.boberproduction.wikigame.ui.menu
+package ua.boberproduction.wikigame.mvvm.menu
 
 import android.os.Bundle
 import android.view.LayoutInflater

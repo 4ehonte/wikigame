@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/mainMenuFragment"
-        android:name="ua.boberproduction.wikigame.ui.menu.MainMenuFragment"
+        android:name="ua.boberproduction.wikigame.mvvm.menu.MainMenuFragment"
         android:label="MainMenuFragment"
         tools:layout="@layout/fragment_main_menu">
         <action
@@ -21,7 +21,7 @@
 
     <fragment
         android:id="@+id/pregameFragment"
-        android:name="ua.boberproduction.wikigame.ui.pregame.PregameFragment"
+        android:name="ua.boberproduction.wikigame.mvvm.pregame.PregameFragment"
         android:label="PregameFragment"
         tools:layout="@layout/fragment_pregame" >
         <action
@@ -36,7 +36,7 @@
 
     <fragment
         android:id="@+id/gameFragment"
-        android:name="ua.boberproduction.wikigame.ui.game.GameFragment"
+        android:name="ua.boberproduction.wikigame.mvvm.game.GameFragment"
         android:label="GameFragment"
         tools:layout="@layout/fragment_game" >
         <action
@@ -51,7 +51,7 @@
 
     <fragment
         android:id="@+id/resultsFragment"
-        android:name="ua.boberproduction.wikigame.ui.results.ResultsFragment"
+        android:name="ua.boberproduction.wikigame.mvvm.postgame.ResultsFragment"
         android:label="ResultsFragment"
         tools:layout="@layout/fragment_results" >
     </fragment>

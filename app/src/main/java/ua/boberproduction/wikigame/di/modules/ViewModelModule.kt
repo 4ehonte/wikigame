@@ -7,10 +7,10 @@ import dagger.Module
 import dagger.multibindings.IntoMap
 import ua.boberproduction.wikigame.di.ViewModelFactory
 import ua.boberproduction.wikigame.di.ViewModelKey
-import ua.boberproduction.wikigame.ui.game.GameViewModel
-import ua.boberproduction.wikigame.ui.menu.MainMenuViewModel
-import ua.boberproduction.wikigame.ui.pregame.PregameViewModel
-import ua.boberproduction.wikigame.ui.results.ResultsViewModel
+import ua.boberproduction.wikigame.mvvm.game.GameViewModel
+import ua.boberproduction.wikigame.mvvm.menu.MainMenuViewModel
+import ua.boberproduction.wikigame.mvvm.pregame.PregameViewModel
+import ua.boberproduction.wikigame.mvvm.postgame.ResultsViewModel
 
 
 @Module

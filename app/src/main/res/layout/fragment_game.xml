@@ -3,12 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <import type="android.view.View" />
 
         <variable
             name="viewModel"
-            type="ua.boberproduction.wikigame.ui.game.GameViewModel" />
+            type="ua.boberproduction.wikigame.mvvm.game.GameViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -111,9 +110,10 @@
             app:layout_constraintTop_toTopOf="@id/footer"
             tools:text="00:49" />
 
-        <TextView
+        <com.robinhood.ticker.TickerView
             android:id="@+id/clicks_counter"
             android:layout_width="wrap_content"
+            app:ticker_defaultCharacterList="number"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
             android:text="@{@plurals/clicks(viewModel.clicksCounter, viewModel.clicksCounter)}"

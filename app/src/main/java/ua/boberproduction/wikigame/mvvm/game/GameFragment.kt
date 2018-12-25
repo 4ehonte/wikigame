@@ -1,4 +1,4 @@
-package ua.boberproduction.wikigame.ui.game
+package ua.boberproduction.wikigame.mvvm.game
 
 import android.graphics.Bitmap
 import android.os.Bundle
@@ -20,10 +20,10 @@ import ua.boberproduction.wikigame.OnBackPressListener
 import ua.boberproduction.wikigame.R
 import ua.boberproduction.wikigame.databinding.FragmentGameBinding
 import ua.boberproduction.wikigame.models.Result
-import ua.boberproduction.wikigame.ui.pregame.PregameFragment
+import ua.boberproduction.wikigame.mvvm.pregame.PregameFragment
 
 class GameFragment : BaseFragment(), OnBackPressListener {
-    lateinit var binding: FragmentGameBinding
+    private lateinit var binding: FragmentGameBinding
     lateinit var viewModel: GameViewModel
 
     companion object {
@@ -52,7 +52,7 @@ class GameFragment : BaseFragment(), OnBackPressListener {
         if (savedInstanceState == null)
             viewModel.onCreate(startPhrase to targetPhrase)
 
-        viewModel.url.observe(this, Observer {
+        viewModel.loadUrl.observe(this, Observer {
             if (!it.isNullOrEmpty()) loadArticle(it)
         })
 
@@ -97,6 +97,7 @@ class GameFragment : BaseFragment(), OnBackPressListener {
             }
 
             override fun onPageStarted(url: String?, favicon: Bitmap?) {
+
             }
 
         })
@@ -121,5 +122,12 @@ class GameFragment : BaseFragment(), OnBackPressListener {
             webview.goBack()
             true
         } else false
+    }
+
+    override fun onDestroyView() {
+        webview.stopLoading()
+        webview.destroy()
+
+        super.onDestroyView()
     }
 }

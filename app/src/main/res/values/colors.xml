@@ -15,4 +15,7 @@
     <color name="black">#000000</color>
 
     <color name="error_snackbar">#e95d5d</color>
+    <color name="floating_text_color">#3b4bb6</color>
+    <color name="main_gradient_light">#4656c1</color>
+    <color name="menu_button_background">#eaecfa</color>
 </resources>

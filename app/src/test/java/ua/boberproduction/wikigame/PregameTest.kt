@@ -2,8 +2,8 @@ package ua.boberproduction.wikigame
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
-import com.artfulbits.fletch.util.TestPreferenceProvider
-import com.artfulbits.fletch.util.TestSchedulerProvider
+import com.artfulbits.fletch.util.TestPreferenceRepository
+import ua.boberproduction.wikigame.util.TestSchedulerProvider
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.argumentCaptor
 import com.nhaarman.mockito_kotlin.mock
@@ -13,12 +13,17 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.mockito.Mockito
-import ua.boberproduction.wikigame.repository.Repository
-import ua.boberproduction.wikigame.ui.pregame.PregameViewModel
+import ua.boberproduction.wikigame.repository.DataRepository
+import ua.boberproduction.wikigame.mvvm.pregame.PregameViewModel
+import io.reactivex.schedulers.Schedulers
+import io.reactivex.android.plugins.RxAndroidPlugins
+import org.junit.BeforeClass
+
+
 
 class PregameTest {
     lateinit var viewModel: PregameViewModel
-    private val repository = mock<Repository>()
+    private val repository = mock<DataRepository>()
 
     @Rule
     @JvmField
@@ -26,13 +31,13 @@ class PregameTest {
 
     @Before
     fun before() {
-        Mockito.`when`(repository.getPhrases(any())).thenReturn(Single.just("First blabla" to "Target blablabla"))
+        Mockito.`when`(repository.getPhrases(any())).thenReturn(Single.just(listOf("Barcelona", "Spain", "Catalonia")))
 
-        viewModel = PregameViewModel(repository, TestSchedulerProvider(), TestPreferenceProvider())
+        viewModel = PregameViewModel(repository, TestSchedulerProvider(), TestPreferenceRepository())
     }
 
     @Test
-    fun onCreateGetPhrases() {
+    fun `after creation get phrases`() {
         val observer = mock<Observer<Pair<String, String>>>()
         viewModel.phrases.observeForever(observer)
 
@@ -45,8 +50,16 @@ class PregameTest {
     }
 
     @Test
-    fun activateStartButtonAfterPhrasesLoad() {
+    fun `get two random phrases from phrases list`() {
+        val phrasesList = listOf("one", "two", "three", "four", "five")
 
+        val randomPair = viewModel.getRandomPhrases(phrasesList)
+        val startPhrase = randomPair.first
+        val targetPhrase = randomPair.second
+
+        assert(startPhrase.isNotEmpty() && targetPhrase.isNotEmpty())
+        assert(startPhrase != targetPhrase)
+        assert(phrasesList.contains(startPhrase))
     }
 
 }

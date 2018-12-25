@@ -1,4 +1,4 @@
-package ua.boberproduction.wikigame.ui.game
+package ua.boberproduction.wikigame.mvvm.game
 
 import android.app.Application
 import androidx.annotation.VisibleForTesting
@@ -9,8 +9,8 @@ import io.reactivex.disposables.CompositeDisposable
 import org.jetbrains.anko.AnkoLogger
 import ua.boberproduction.wikigame.R
 import ua.boberproduction.wikigame.models.Result
-import ua.boberproduction.wikigame.repository.PreferencesProvider
-import ua.boberproduction.wikigame.repository.Repository
+import ua.boberproduction.wikigame.repository.PreferencesRepository
+import ua.boberproduction.wikigame.repository.DataRepository
 import ua.boberproduction.wikigame.util.SchedulerProvider
 import ua.boberproduction.wikigame.util.SingleLiveEvent
 import ua.boberproduction.wikigame.util.Timer
@@ -18,12 +18,12 @@ import java.net.URLDecoder
 import javax.inject.Inject
 
 class GameViewModel @Inject constructor(
-        private val repository: Repository,
+        private val dataRepository: DataRepository,
         private val schedulerProvider: SchedulerProvider,
-        private val preferencesProvider: PreferencesProvider,
+        private val preferencesRepository: PreferencesRepository,
         private val app: Application) : AndroidViewModel(app), AnkoLogger {
 
-    val url = MutableLiveData<String>()
+    val loadUrl = MutableLiveData<String>()
     val title = MutableLiveData<String>()
     val target = MutableLiveData<String>()
     val clicksCounter = MutableLiveData<Int>()
@@ -44,12 +44,12 @@ class GameViewModel @Inject constructor(
 
     fun onCreate(phrases: Pair<String, String>) {
         this.phrases = phrases
-        val locale = preferencesProvider.getAppLocale()
+        val locale = preferencesRepository.getAppLocale()
 
         val url = "https://$locale.m.wikipedia.org/wiki/${phrases.first}"
         timer?.stop()
         timer = null
-        this.url.postValue(url)
+        this.loadUrl.postValue(url)
         this.title.value = phrases.first
         progressBarVisibility.value = true
         this.target.value = phrases.second
@@ -84,7 +84,9 @@ class GameViewModel @Inject constructor(
             // if it didn't match the target, show the article title and start loading the web page.
             this.title.value = title
             progressBarVisibility.value = true
-            this.url.postValue(url)
+
+            timer?.pause()
+            this.loadUrl.postValue(url)
         } else {
             errorMessage.postValue(app.getString(R.string.error_external_link))
         }
@@ -99,7 +101,7 @@ class GameViewModel @Inject constructor(
     fun pageLoaded(url: String, title: String) {
         progressBarVisibility.value = false
 
-        if (timer == null) initTimer()
+        if (timer == null) initTimer() else timer?.resume()
 
         // separate the actual title (etc. "Barcelona" from "Barcelona — Wikipedia")
         this.title.value = title.substringBeforeLast(" -")
@@ -112,7 +114,8 @@ class GameViewModel @Inject constructor(
 
     fun finishGame() {
         timer?.stop()
-        val result = Result(preferencesProvider.getUserLevel(), phrases.first, phrases.second, clicksCounter.value ?: 0, timer?.time?.toInt() ?: 0, System.currentTimeMillis())
+        val result = Result(preferencesRepository.getUserLevel(), phrases.first, phrases.second, clicksCounter.value
+                ?: 0, timer?.time?.toInt() ?: 0, System.currentTimeMillis())
         showResults.value = result
     }
 }

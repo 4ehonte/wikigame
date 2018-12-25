@@ -7,25 +7,26 @@
 
         <variable
             name="viewModel"
-            type="ua.boberproduction.wikigame.ui.pregame.PregameViewModel" />
+            type="ua.boberproduction.wikigame.mvvm.pregame.PregameViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/colorPrimary">
+        android:layout_height="match_parent">
 
-        <TextView
+        <com.robinhood.ticker.TickerView
             android:id="@+id/phrase_start"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
             android:gravity="center"
+            android:text="Start"
             android:textColor="@color/white"
             android:textSize="18sp"
             app:layout_constraintBottom_toTopOf="@id/down_arrow"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_chainStyle="packed"
+            app:ticker_defaultCharacterList="alphabet"
             tools:text="Starting phrase" />
 
         <ImageView
@@ -39,28 +40,49 @@
             app:layout_constraintTop_toBottomOf="@id/phrase_start"
             tools:ignore="ContentDescription" />
 
-        <TextView
+        <com.robinhood.ticker.TickerView
             android:id="@+id/phrase_target"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:gravity="center"
+            android:text="Target"
             android:textColor="@color/white"
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/down_arrow"
+            app:ticker_defaultCharacterList="alphabet"
             tools:text="Target phrase" />
+
+        <ImageView
+            android:id="@+id/target_info_btn"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:translationY="5dp"
+            android:scaleX="0"
+            android:scaleY="0"
+            android:src="@drawable/ic_question"
+            app:layout_constraintBottom_toTopOf="@id/phrase_target"
+            app:layout_constraintStart_toEndOf="@id/phrase_target"
+            tools:scaleX="1"
+            tools:scaleY="1" />
 
         <Button
             android:id="@+id/btn_start"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="36dp"
             android:onClick="@{v -> viewModel.startButtonClicked()}"
+            android:scaleX="0"
+            android:scaleY="0"
             android:text="@string/start"
+            android:elevation="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            tools:scaleX="1"
+            tools:scaleY="1"
+            style="@style/MenuButton" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

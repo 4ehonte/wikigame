@@ -3,8 +3,8 @@ package ua.boberproduction.wikigame
 import android.app.Application
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
-import com.artfulbits.fletch.util.TestPreferenceProvider
-import com.artfulbits.fletch.util.TestSchedulerProvider
+import com.artfulbits.fletch.util.TestPreferenceRepository
+import ua.boberproduction.wikigame.util.TestSchedulerProvider
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.argumentCaptor
 import com.nhaarman.mockito_kotlin.mock
@@ -19,15 +19,15 @@ import org.robolectric.RobolectricTestRunner
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.RuntimeEnvironment.application
 import org.robolectric.annotation.Config
-import ua.boberproduction.wikigame.repository.Repository
+import ua.boberproduction.wikigame.repository.DataRepository
 import ua.boberproduction.wikigame.repository.Resource
-import ua.boberproduction.wikigame.ui.game.GameViewModel
+import ua.boberproduction.wikigame.mvvm.game.GameViewModel
 
 @RunWith(RobolectricTestRunner::class)
 @Config(application = Application::class, manifest = Config.NONE)
 class GameTest {
     lateinit var viewModel: GameViewModel
-    private val repository = mock<Repository>()
+    private val repository = mock<DataRepository>()
 
     @Rule
     @JvmField
@@ -37,25 +37,24 @@ class GameTest {
     fun before() {
         Mockito.`when`(repository.getArticleHtml(any(), any())).thenReturn(Single.just(Resource.Success("<html> <body> <h1>My First Heading</h1> <p>My first paragraph.</p> </body> </html>")))
         val application = RuntimeEnvironment.application
-        viewModel = GameViewModel(repository, TestSchedulerProvider(), TestPreferenceProvider(), application)
+        viewModel = GameViewModel(repository, TestSchedulerProvider(), TestPreferenceRepository(), application)
     }
 
     @Test
     fun `after creation, the first article starts to load`() {
         val observer = mock<Observer<String>>()
-        viewModel.url.observeForever(observer)
+        viewModel.loadUrl.observeForever(observer)
 
         viewModel.onCreate("Blabla" to "Lalala")
         argumentCaptor<String>().apply {
             verify(observer).onChanged(capture())
-
             assert(firstValue.contains("Blabla"))
         }
     }
 
     @Test
     fun `after the first article is loaded, timer starts`() {
-        viewModel = GameViewModel(repository, TestSchedulerProvider(), TestPreferenceProvider(), application)
+        viewModel = GameViewModel(repository, TestSchedulerProvider(), TestPreferenceRepository(), application)
         assert(viewModel.timer == null || viewModel.timer!!.time == 0L)
 
         viewModel.pageLoaded("wikiurl", "wiki title")
