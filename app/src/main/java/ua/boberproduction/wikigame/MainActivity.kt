@@ -13,7 +13,7 @@ import ua.boberproduction.wikigame.repository.PreferencesRepository
 import ua.boberproduction.wikigame.util.SchedulerProvider
 import javax.inject.Inject
 
-class MainActivity : DaggerAppCompatActivity(), NavController.OnNavigatedListener {
+class MainActivity : DaggerAppCompatActivity(), NavController.OnDestinationChangedListener {
     @Inject
     lateinit var dataRepository: DataRepository
     @Inject
@@ -42,7 +42,7 @@ class MainActivity : DaggerAppCompatActivity(), NavController.OnNavigatedListene
             fontResource = R.font.linux_libertine
         }
 
-        findNavController(R.id.nav_host_fragment).addOnNavigatedListener(this)
+        findNavController(R.id.nav_host_fragment).addOnDestinationChangedListener(this)
     }
 
     override fun onSupportNavigateUp() = findNavController(R.id.nav_host_fragment).navigateUp()
@@ -52,7 +52,7 @@ class MainActivity : DaggerAppCompatActivity(), NavController.OnNavigatedListene
             super.onBackPressed()
     }
 
-    override fun onNavigated(controller: NavController, destination: NavDestination) {
+    override fun onDestinationChanged(controller: NavController, destination: NavDestination, arguments: Bundle?) {
         if (destination.id == R.id.gameFragment) {
             text_scroller_bkg.visibility = View.GONE
         } else

@@ -11,6 +11,7 @@ import org.junit.Test
 import ua.boberproduction.wikigame.models.Result
 import ua.boberproduction.wikigame.repository.DataRepository
 import ua.boberproduction.wikigame.mvvm.postgame.ResultsViewModel
+import ua.boberproduction.wikigame.util.TestResourceRepository
 
 class ResultsTest {
     lateinit var viewModel: ResultsViewModel
@@ -22,7 +23,7 @@ class ResultsTest {
 
     @Before
     fun before() {
-        viewModel = ResultsViewModel(repository, TestSchedulerProvider(), TestPreferenceRepository())
+        viewModel = ResultsViewModel(repository, TestSchedulerProvider(), TestPreferenceRepository(), TestResourceRepository())
     }
 
     @Test

@@ -7,6 +7,7 @@ import ua.boberproduction.wikigame.mvvm.game.GameFragment
 import ua.boberproduction.wikigame.mvvm.menu.MainMenuFragment
 import ua.boberproduction.wikigame.mvvm.pregame.PregameFragment
 import ua.boberproduction.wikigame.mvvm.postgame.ResultsFragment
+import ua.boberproduction.wikigame.mvvm.pregame.InfoDialogFragment
 
 
 @Module
@@ -17,6 +18,9 @@ abstract class FragmentsProvider {
 
     @ContributesAndroidInjector
     internal abstract fun providePreGameFragment(): PregameFragment
+
+    @ContributesAndroidInjector
+    internal abstract fun provideInfoDialogFragment(): InfoDialogFragment
 
     @ContributesAndroidInjector
     internal abstract fun provideGameFragment(): GameFragment

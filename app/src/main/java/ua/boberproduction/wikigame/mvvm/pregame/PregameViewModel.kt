@@ -1,11 +1,14 @@
 package ua.boberproduction.wikigame.mvvm.pregame
 
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import io.reactivex.disposables.CompositeDisposable
-import ua.boberproduction.wikigame.repository.PreferencesRepository
 import ua.boberproduction.wikigame.repository.DataRepository
+import ua.boberproduction.wikigame.repository.PreferencesRepository
+import ua.boberproduction.wikigame.repository.ResourceMapper
 import ua.boberproduction.wikigame.util.SchedulerProvider
 import ua.boberproduction.wikigame.util.SingleLiveEvent
+import ua.boberproduction.wikigame.util.addToComposite
 import ua.boberproduction.wikigame.util.randomItem
 import java.util.*
 import javax.inject.Inject
@@ -19,6 +22,8 @@ class PregameViewModel @Inject constructor(
     val errorMessage = SingleLiveEvent<String>()
     val phrases = SingleLiveEvent<Pair<String, String>>()
     val startGame = SingleLiveEvent<Unit>()
+    val showInfoWindow by lazy { SingleLiveEvent<String>() }
+    val phraseInfo by lazy { MutableLiveData<Pair<String, String>>() }
 
     fun onCreate() {
         loadPhrases()
@@ -55,6 +60,32 @@ class PregameViewModel @Inject constructor(
         val secondPhrase = mutableList.randomItem(random)
 
         return firstPhrase!! to secondPhrase!!
+    }
+
+    fun showInfoWindow(phrase: String) {
+        showInfoWindow.postValue(phrase)
+    }
+
+    fun loadInfo(phrase: String) {
+        val currentInfo = phraseInfo.value
+        // if we already have info for the requested phrase loaded, just display it
+        if (currentInfo?.first == phrase) {
+            phraseInfo.postValue(currentInfo)
+            // if not, load info
+        } else {
+            val locale = preferencesRepository.getAppLocale()
+            dataRepository.getSummary(phrase, locale.toString())
+                    .subscribeOn(schedulerProvider.io())
+                    .observeOn(schedulerProvider.mainThread())
+                    .map(ResourceMapper())
+                    .subscribe({
+                        phraseInfo.postValue(phrase to it)
+                    }, {
+                        errorMessage.postValue(it.message)
+                    })
+                    .addToComposite(disposables)
+
+        }
     }
 
     fun startButtonClicked() = startGame.call()

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="ua.boberproduction.wikigame.mvvm.pregame.PregameViewModel" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minWidth="300dp">
+
+        <ua.boberproduction.wikigame.util.ContentLoadingContainer
+            android:id="@+id/summary_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="18dp"
+            android:background="@drawable/info_window_background">
+
+            <TextView
+                android:id="@+id/summary_tv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clickable="true"
+                android:focusable="true"
+                android:padding="16dp"
+                android:scrollbars="vertical"
+                tools:text="Summary blablabla" />
+
+        </ua.boberproduction.wikigame.util.ContentLoadingContainer>
+
+        <ImageView
+            android:id="@+id/close_btn"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:src="@drawable/close_button" />
+
+    </RelativeLayout>
+
+</layout>

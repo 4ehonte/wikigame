@@ -14,8 +14,10 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.NavHostFragment
 import kotlinx.android.synthetic.main.fragment_pregame.*
 import ua.boberproduction.wikigame.BaseFragment
+import ua.boberproduction.wikigame.MainActivity
 import ua.boberproduction.wikigame.R
 import ua.boberproduction.wikigame.databinding.FragmentPregameBinding
+import ua.boberproduction.wikigame.util.showDialogFragment
 
 class PregameFragment : BaseFragment() {
     lateinit var binding: FragmentPregameBinding
@@ -45,21 +47,15 @@ class PregameFragment : BaseFragment() {
 
         phrase_target.addAnimatorListener(object : Animator.AnimatorListener {
 
-            override fun onAnimationRepeat(p0: Animator?) {
-
-            }
+            override fun onAnimationRepeat(p0: Animator?) {}
 
             override fun onAnimationEnd(p0: Animator?) {
                 showButtons()
             }
 
-            override fun onAnimationStart(p0: Animator?) {
+            override fun onAnimationStart(p0: Animator?) {}
 
-            }
-
-            override fun onAnimationCancel(p0: Animator?) {
-
-            }
+            override fun onAnimationCancel(p0: Animator?) {}
 
         })
 
@@ -82,6 +78,10 @@ class PregameFragment : BaseFragment() {
                     TARGET_PHRASE to viewModel.phrases.value?.second)
             NavHostFragment.findNavController(this).navigate(R.id.action_pregameFragment_to_gameFragment, bundle)
         })
+
+        viewModel.showInfoWindow.observe(this, Observer {
+            showInfoDialog(it)
+        })
     }
 
     private fun showButtons() {
@@ -98,5 +98,12 @@ class PregameFragment : BaseFragment() {
         val set = AnimatorSet()
         set.playTogether(scaleXstart, scaleYstart, scaleXquestion, scaleYquestion)
         set.start()
+    }
+
+    private fun showInfoDialog(phrase: String) {
+        val dialogFragment = InfoDialogFragment()
+        val bundle = bundleOf(InfoDialogFragment.PARAM_PHRASE to phrase)
+        dialogFragment.arguments = bundle
+        (activity as MainActivity).showDialogFragment(InfoDialogFragment.TAG, dialogFragment)
     }
 }

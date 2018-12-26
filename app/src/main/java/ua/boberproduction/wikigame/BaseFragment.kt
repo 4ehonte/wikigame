@@ -1,6 +1,5 @@
 package ua.boberproduction.wikigame
 
-import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProviders
 import dagger.android.support.DaggerFragment

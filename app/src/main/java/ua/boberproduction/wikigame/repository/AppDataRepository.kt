@@ -35,4 +35,13 @@ class AppDataRepository(private val wikiApi: WikiApi,
         return Single.just(phrasesArray.asList())
     }
 
+    override fun getSummary(articleName: String, locale: String): Single<Resource<String>> {
+        return wikiApi.getSummary(locale, articleName)
+                .flatMap { response ->
+                    val summary = response.getFirstPage()?.content
+                    if (summary.isNullOrEmpty()) {
+                        Single.just(Resource.Failure<String>())
+                    } else Single.just(Resource.Success(summary))
+                }
+    }
 }

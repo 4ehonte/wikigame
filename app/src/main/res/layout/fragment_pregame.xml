@@ -63,6 +63,7 @@
             android:translationY="5dp"
             android:scaleX="0"
             android:scaleY="0"
+            android:onClick="@{() -> viewModel.showInfoWindow(phraseTarget.getText())}"
             android:src="@drawable/ic_question"
             app:layout_constraintBottom_toTopOf="@id/phrase_target"
             app:layout_constraintStart_toEndOf="@id/phrase_target"

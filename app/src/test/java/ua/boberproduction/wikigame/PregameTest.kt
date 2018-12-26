@@ -3,7 +3,6 @@ package ua.boberproduction.wikigame
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
 import com.artfulbits.fletch.util.TestPreferenceRepository
-import ua.boberproduction.wikigame.util.TestSchedulerProvider
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.argumentCaptor
 import com.nhaarman.mockito_kotlin.mock
@@ -13,12 +12,9 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.mockito.Mockito
-import ua.boberproduction.wikigame.repository.DataRepository
 import ua.boberproduction.wikigame.mvvm.pregame.PregameViewModel
-import io.reactivex.schedulers.Schedulers
-import io.reactivex.android.plugins.RxAndroidPlugins
-import org.junit.BeforeClass
-
+import ua.boberproduction.wikigame.repository.DataRepository
+import ua.boberproduction.wikigame.util.TestSchedulerProvider
 
 
 class PregameTest {
@@ -61,5 +57,4 @@ class PregameTest {
         assert(startPhrase != targetPhrase)
         assert(phrasesList.contains(startPhrase))
     }
-
 }

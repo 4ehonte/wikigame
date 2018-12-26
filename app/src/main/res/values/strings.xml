@@ -1,5 +1,9 @@
 <resources>
     <string name="app_name">wikigame</string>
+
+    <string name="error_tap_to_repeat">Error. Tap here to retry</string>
+    <string name="nothing_found">Nothing found.</string>
+
     <string name="btn_play">Play</string>
     <string name="start">Start</string>
     <string name="error_external_link">That\'s not a wiki link.</string>

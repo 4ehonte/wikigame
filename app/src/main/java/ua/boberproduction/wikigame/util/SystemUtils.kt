@@ -1,11 +1,16 @@
 package ua.boberproduction.wikigame.util
 
+import android.app.Activity
 import android.content.Context
 import android.graphics.PorterDuff
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import com.google.android.material.snackbar.Snackbar
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.disposables.Disposable
 
 /**
  * Display toast message on provided context
@@ -29,3 +34,13 @@ fun View.snackbar(text: String, length: Int = Snackbar.LENGTH_SHORT, colorResour
     snackbar.view.setOnClickListener { snackbar.dismiss() }
     snackbar.show()
 }
+
+fun AppCompatActivity.showDialogFragment(tag: String, fragment: DialogFragment) {
+    val fragmentTransaction = supportFragmentManager.beginTransaction()
+    val prev = supportFragmentManager.findFragmentByTag(tag)
+    if (prev != null) fragmentTransaction.remove(prev)
+    fragmentTransaction.addToBackStack(null)
+    fragment.show(fragmentTransaction, tag)
+}
+
+fun Disposable.addToComposite(compositeDisposable: CompositeDisposable) = compositeDisposable.add(this)
