@@ -71,36 +71,20 @@ class GameFragment : BaseFragment(), OnBackPressListener {
     }
 
     private fun configureWebView() {
-        // override link clicks.
         webview.webViewClient = object : WebViewClient() {
+            // override link clicks.
             override fun shouldOverrideUrlLoading(view: WebView?, url: String): Boolean {
                 viewModel.onLinkClicked(url)
                 return true
             }
-        }
 
-        webview.settings.cacheMode = WebSettings.LOAD_CACHE_ELSE_NETWORK
-
-        webview.setListener(activity, object : AdvancedWebView.Listener {
-            override fun onPageFinished(url: String) {
+            override fun onPageFinished(view: WebView?, url: String) {
                 hideWebPageElements()
                 viewModel.pageLoaded(url, webview.title)
             }
+        }
 
-            override fun onPageError(errorCode: Int, description: String?, failingUrl: String?) {
-            }
-
-            override fun onDownloadRequested(url: String?, suggestedFilename: String?, mimeType: String?, contentLength: Long, contentDisposition: String?, userAgent: String?) {
-            }
-
-            override fun onExternalPageRequest(url: String?) {
-            }
-
-            override fun onPageStarted(url: String?, favicon: Bitmap?) {
-
-            }
-
-        })
+        webview.settings.cacheMode = WebSettings.LOAD_CACHE_ELSE_NETWORK
     }
 
     // After the page has loaded, hide header, footer, and other irrelevant elements

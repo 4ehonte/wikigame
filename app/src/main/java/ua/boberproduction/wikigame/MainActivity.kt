@@ -53,10 +53,10 @@ class MainActivity : DaggerAppCompatActivity(), NavController.OnDestinationChang
     }
 
     override fun onDestinationChanged(controller: NavController, destination: NavDestination, arguments: Bundle?) {
-        if (destination.id == R.id.gameFragment) {
-            text_scroller_bkg.visibility = View.GONE
-        } else
-            text_scroller_bkg.visibility = View.VISIBLE
+//        if (destination.id == R.id.gameFragment) {
+//            text_scroller_bkg.visibility = View.GONE
+//        } else
+//            text_scroller_bkg.visibility = View.VISIBLE
     }
 
     override fun onDestroy() {

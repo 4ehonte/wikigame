@@ -26,6 +26,7 @@ class PregameFragment : BaseFragment() {
     companion object {
         const val START_PHRASE = "start_phrase"
         const val TARGET_PHRASE = "target_phrase"
+        const val BUTTON_ANIMATION_DURATION = 400L
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -46,17 +47,13 @@ class PregameFragment : BaseFragment() {
         phrase_target.animationDelay = 100
 
         phrase_target.addAnimatorListener(object : Animator.AnimatorListener {
-
             override fun onAnimationRepeat(p0: Animator?) {}
-
             override fun onAnimationEnd(p0: Animator?) {
-                showButtons()
+                if (isResumed) showButtons()
             }
 
             override fun onAnimationStart(p0: Animator?) {}
-
             override fun onAnimationCancel(p0: Animator?) {}
-
         })
 
         viewModel.onCreate()
@@ -66,17 +63,12 @@ class PregameFragment : BaseFragment() {
         })
 
         viewModel.phrases.observe(this, Observer { pair ->
-            if (pair != null) {
-                phrase_start.text = pair.first
-                phrase_target.text = pair.second
-            }
+            phrase_start.text = pair.first
+            phrase_target.text = pair.second
         })
 
         viewModel.startGame.observe(this, Observer {
-            val bundle = bundleOf(
-                    START_PHRASE to viewModel.phrases.value?.first,
-                    TARGET_PHRASE to viewModel.phrases.value?.second)
-            NavHostFragment.findNavController(this).navigate(R.id.action_pregameFragment_to_gameFragment, bundle)
+            startGame()
         })
 
         viewModel.showInfoWindow.observe(this, Observer {
@@ -84,22 +76,35 @@ class PregameFragment : BaseFragment() {
         })
     }
 
-    private fun showButtons() {
-        val scaleXstart = ObjectAnimator.ofFloat(btn_start, "scaleX", 0f, 1f).setDuration(400)
-        val scaleYstart = ObjectAnimator.ofFloat(btn_start, "scaleY", 0f, 1f).setDuration(400)
-        scaleXstart.interpolator = OvershootInterpolator()
-        scaleYstart.interpolator = OvershootInterpolator()
+    private fun startGame() {
+        val bundle = bundleOf(
+                START_PHRASE to viewModel.phrases.value?.first,
+                TARGET_PHRASE to viewModel.phrases.value?.second)
 
-        val scaleXquestion = ObjectAnimator.ofFloat(target_info_btn, "scaleX", 0f, 1f).setDuration(400)
-        val scaleYquestion = ObjectAnimator.ofFloat(target_info_btn, "scaleY", 0f, 1f).setDuration(400)
-        scaleXquestion.interpolator = OvershootInterpolator()
-        scaleYquestion.interpolator = OvershootInterpolator()
+        NavHostFragment.findNavController(this)
+                .navigate(R.id.action_pregameFragment_to_gameFragment, bundle)
+    }
+
+    // Reveal buttons with overshoot animation
+    private fun showButtons() {
+        val scaleXStart = getButtonAnimator(btn_start, "scaleX")
+        val scaleYStart = getButtonAnimator(btn_start, "scaleY")
+
+        val scaleXQuestion = getButtonAnimator(target_info_btn, "scaleX")
+        val scaleYQuestion = getButtonAnimator(target_info_btn, "scaleY")
 
         val set = AnimatorSet()
-        set.playTogether(scaleXstart, scaleYstart, scaleXquestion, scaleYquestion)
+        set.playTogether(scaleXStart, scaleYStart, scaleXQuestion, scaleYQuestion)
         set.start()
     }
 
+    private fun getButtonAnimator(button: View, propertyName: String): ObjectAnimator {
+        val animator = ObjectAnimator.ofFloat(button, propertyName, 0f, 1f).setDuration(BUTTON_ANIMATION_DURATION)
+        animator.interpolator = OvershootInterpolator()
+        return animator
+    }
+
+    // Show dialog fragment containing summary from Wikipedia article on given phrase
     private fun showInfoDialog(phrase: String) {
         val dialogFragment = InfoDialogFragment()
         val bundle = bundleOf(InfoDialogFragment.PARAM_PHRASE to phrase)

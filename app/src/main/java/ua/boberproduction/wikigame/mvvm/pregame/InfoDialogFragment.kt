@@ -20,7 +20,6 @@ import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.support.AndroidSupportInjection
 import dagger.android.support.HasSupportFragmentInjector
-import kotlinx.android.synthetic.main.content_loading_container.view.*
 import kotlinx.android.synthetic.main.fragment_info_dialog.*
 import ua.boberproduction.wikigame.R
 import ua.boberproduction.wikigame.databinding.FragmentInfoDialogBinding
