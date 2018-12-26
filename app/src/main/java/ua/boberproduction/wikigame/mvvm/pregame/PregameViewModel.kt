@@ -23,6 +23,7 @@ class PregameViewModel @Inject constructor(
     val phrases = SingleLiveEvent<Pair<String, String>>()
     val startGame = SingleLiveEvent<Unit>()
     val showInfoWindow by lazy { SingleLiveEvent<String>() }
+    val summaryLoadingError by lazy { SingleLiveEvent<String>() }
     val phraseInfo by lazy { MutableLiveData<Pair<String, String>>() }
 
     fun onCreate() {
@@ -81,7 +82,7 @@ class PregameViewModel @Inject constructor(
                     .subscribe({
                         phraseInfo.postValue(phrase to it)
                     }, {
-                        errorMessage.postValue(it.message)
+                        summaryLoadingError.postValue(it.message)
                     })
                     .addToComposite(disposables)
 

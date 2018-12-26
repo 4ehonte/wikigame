@@ -17,6 +17,7 @@
         <ua.boberproduction.wikigame.util.ContentLoadingContainer
             android:id="@+id/summary_container"
             android:layout_width="match_parent"
+            android:padding="16dp"
             android:layout_height="wrap_content"
             android:layout_margin="18dp"
             android:background="@drawable/info_window_background">

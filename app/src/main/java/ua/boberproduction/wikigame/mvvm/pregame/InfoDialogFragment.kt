@@ -20,6 +20,7 @@ import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.support.AndroidSupportInjection
 import dagger.android.support.HasSupportFragmentInjector
+import kotlinx.android.synthetic.main.content_loading_container.view.*
 import kotlinx.android.synthetic.main.fragment_info_dialog.*
 import ua.boberproduction.wikigame.R
 import ua.boberproduction.wikigame.databinding.FragmentInfoDialogBinding
@@ -42,27 +43,33 @@ class InfoDialogFragment : DialogFragment(), HasSupportFragmentInjector {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        phrase = arguments?.getString(PARAM_PHRASE).orEmpty()
         viewModel = ViewModelProviders.of(activity!!, viewModelFactory).get(PregameViewModel::class.java)
 
         binding.viewModel = viewModel
 
         summary_container.contentView = summary_tv
+        summary_container.doOnRetry { viewModel.loadInfo(phrase) }
+
         close_btn.setOnClickListener { dismiss() }
         summary_tv.movementMethod = ScrollingMovementMethod()
 
-        phrase = arguments?.getString(PARAM_PHRASE).orEmpty()
         viewModel.loadInfo(phrase)
 
         viewModel.phraseInfo.observe(this, Observer {
             if (it.first == phrase) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                    summary_tv.text = Html.fromHtml(it.second, Html.FROM_HTML_MODE_LEGACY)
-                } else {
-                    @Suppress("DEPRECATION")
-                    summary_tv.text = Html.fromHtml(it.second)
+                @Suppress("DEPRECATION")
+                when {
+                    it.second.isEmpty() -> summary_container.showEmptyMessage()
+                    Build.VERSION.SDK_INT >= Build.VERSION_CODES.N -> summary_tv.text = Html.fromHtml(it.second, Html.FROM_HTML_MODE_LEGACY)
+                    else -> summary_tv.text = Html.fromHtml(it.second)
                 }
             }
             summary_container.showContentView()
+        })
+
+        viewModel.summaryLoadingError.observe(this, Observer {
+            summary_container.showError()
         })
     }
 
