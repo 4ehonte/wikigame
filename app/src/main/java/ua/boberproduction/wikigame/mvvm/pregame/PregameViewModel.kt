@@ -6,17 +6,16 @@ import io.reactivex.disposables.CompositeDisposable
 import ua.boberproduction.wikigame.repository.DataRepository
 import ua.boberproduction.wikigame.repository.PreferencesRepository
 import ua.boberproduction.wikigame.repository.ResourceMapper
-import ua.boberproduction.wikigame.util.SchedulerProvider
-import ua.boberproduction.wikigame.util.SingleLiveEvent
-import ua.boberproduction.wikigame.util.addToComposite
-import ua.boberproduction.wikigame.util.randomItem
+import ua.boberproduction.wikigame.repository.ResourcesRepository
+import ua.boberproduction.wikigame.util.*
 import java.util.*
 import javax.inject.Inject
 
 class PregameViewModel @Inject constructor(
         private val dataRepository: DataRepository,
         private val schedulerProvider: SchedulerProvider,
-        private val preferencesRepository: PreferencesRepository) : ViewModel() {
+        private val preferencesRepository: PreferencesRepository,
+        private val resourcesRepository: ResourcesRepository) : ViewModel() {
 
     private val disposables = CompositeDisposable()
     val errorMessage = SingleLiveEvent<String>()
@@ -34,7 +33,8 @@ class PregameViewModel @Inject constructor(
      * Load two phrases from the dataRepository (a phrase to begin game from, and a target phrase) into a LiveData object
      */
     private fun loadPhrases() {
-        val userLevel = preferencesRepository.getUserLevel()
+        val levels = Levels(resourcesRepository)
+        val userLevel = levels.getUserLevel(preferencesRepository.getTotalPoints()).levelNumber
 
         disposables.add(
                 dataRepository.getPhrases(userLevel)

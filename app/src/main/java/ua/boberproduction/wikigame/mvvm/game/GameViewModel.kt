@@ -11,6 +11,8 @@ import ua.boberproduction.wikigame.R
 import ua.boberproduction.wikigame.models.Result
 import ua.boberproduction.wikigame.repository.PreferencesRepository
 import ua.boberproduction.wikigame.repository.DataRepository
+import ua.boberproduction.wikigame.repository.ResourcesRepository
+import ua.boberproduction.wikigame.util.Levels
 import ua.boberproduction.wikigame.util.SchedulerProvider
 import ua.boberproduction.wikigame.util.SingleLiveEvent
 import ua.boberproduction.wikigame.util.Timer
@@ -20,6 +22,7 @@ import javax.inject.Inject
 class GameViewModel @Inject constructor(
         private val dataRepository: DataRepository,
         private val schedulerProvider: SchedulerProvider,
+        private val resourcesRepository: ResourcesRepository,
         private val preferencesRepository: PreferencesRepository,
         private val app: Application) : AndroidViewModel(app), AnkoLogger {
 
@@ -114,7 +117,10 @@ class GameViewModel @Inject constructor(
 
     fun finishGame() {
         timer?.stop()
-        val result = Result(preferencesRepository.getUserLevel(), phrases.first, phrases.second, clicksCounter.value
+
+        val levels = Levels(resourcesRepository)
+        val userLevel = levels.getUserLevel(preferencesRepository.getTotalPoints()).levelNumber
+        val result = Result(userLevel, phrases.first, phrases.second, clicksCounter.value
                 ?: 0, timer?.time?.toInt() ?: 0, System.currentTimeMillis())
         showResults.value = result
     }

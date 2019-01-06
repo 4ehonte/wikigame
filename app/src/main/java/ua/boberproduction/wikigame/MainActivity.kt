@@ -8,8 +8,12 @@ import androidx.navigation.findNavController
 import dagger.android.support.DaggerAppCompatActivity
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.activity_main.*
+import ua.boberproduction.wikigame.R.string.level
+import ua.boberproduction.wikigame.mvvm.game.GameFragment
 import ua.boberproduction.wikigame.repository.DataRepository
 import ua.boberproduction.wikigame.repository.PreferencesRepository
+import ua.boberproduction.wikigame.repository.ResourcesRepository
+import ua.boberproduction.wikigame.util.Levels
 import ua.boberproduction.wikigame.util.SchedulerProvider
 import javax.inject.Inject
 
@@ -20,6 +24,8 @@ class MainActivity : DaggerAppCompatActivity(), NavController.OnDestinationChang
     lateinit var preferencesRepository: PreferencesRepository
     @Inject
     lateinit var schedulerProvider: SchedulerProvider
+    @Inject
+    lateinit var resourcesRepository: ResourcesRepository
 
     var backPressListener: OnBackPressListener? = null
     private val disposables = CompositeDisposable()
@@ -29,7 +35,8 @@ class MainActivity : DaggerAppCompatActivity(), NavController.OnDestinationChang
         setContentView(R.layout.activity_main)
 
         with(text_scroller_bkg) {
-            val level = preferencesRepository.getUserLevel()
+            val levels = Levels(resourcesRepository)
+            val level = levels.getCurrentLevel(preferencesRepository.getTotalPoints())
 
             // get phrases from repository to display them randomly on background
             disposables.add(

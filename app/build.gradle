@@ -39,6 +39,7 @@ dependencies {
     def retrofit_version = '2.4.0'
     def anko_version = '0.10.5'
     def nav_version = "1.0.0-alpha09"
+    def room_version = '2.1.0-alpha03'
     def moshi_version = "1.6.0"
     def okhttp_version = '3.10.0'
 
@@ -47,7 +48,7 @@ dependencies {
     implementation "androidx.appcompat:appcompat:1.0.2"
     implementation "androidx.constraintlayout:constraintlayout:2.0.0-alpha3"
     implementation 'androidx.core:core-ktx:1.0.1'
-    implementation "androidx.databinding:databinding-runtime:3.4.0-alpha09"
+    implementation "androidx.databinding:databinding-runtime:3.4.0-alpha10"
     implementation "com.google.android.material:material:1.0.0"
 
     // Testing
@@ -67,9 +68,9 @@ dependencies {
     implementation "android.arch.navigation:navigation-ui-ktx:$nav_version"
 
     // Room
-    implementation "androidx.room:room-runtime:$arch_components_version"
-    kapt "androidx.room:room-compiler:$arch_components_version"
-    implementation "androidx.room:room-rxjava2:$arch_components_version"
+    implementation "androidx.room:room-runtime:$room_version"
+    kapt "androidx.room:room-compiler:$room_version"
+    implementation "androidx.room:room-rxjava2:$room_version"
 
     // Dagger2
     implementation "com.google.dagger:dagger:$dagger2_version"
@@ -81,6 +82,7 @@ dependencies {
     // RxJava2
     implementation 'io.reactivex.rxjava2:rxjava:2.2.3'
     implementation 'io.reactivex.rxjava2:rxandroid:2.1.0'
+    implementation 'io.reactivex.rxjava2:rxkotlin:2.3.0'
 
     // Retrofit
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
@@ -98,10 +100,14 @@ dependencies {
     implementation "com.squareup.okhttp3:logging-interceptor:$okhttp_version"
     implementation "com.squareup.okhttp3:okhttp:$okhttp_version"
 
+    // Coroutines
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.1.0'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.1.0'
+
     // Misc
-    implementation 'com.github.delight-im:Android-AdvancedWebView:v3.0.0'
     testImplementation "org.robolectric:robolectric:3.8"
     implementation 'com.robinhood.ticker:ticker:2.0.0'
     implementation 'com.github.jakob-grabner:Circle-Progress-View:v1.3'
     implementation 'org.xwalk:xwalk_core_library:23.53.589.4'
+    implementation 'com.jakewharton.timber:timber:4.7.1'
 }

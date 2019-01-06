@@ -1,6 +1,6 @@
 package ua.boberproduction.wikigame.mvvm.game
 
-import android.graphics.Bitmap
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,8 +12,10 @@ import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.NavHostFragment
-import im.delight.android.webview.AdvancedWebView
 import kotlinx.android.synthetic.main.fragment_game.*
+import org.jetbrains.anko.AnkoLogger
+import org.jetbrains.anko.debug
+import timber.log.Timber
 import ua.boberproduction.wikigame.BaseFragment
 import ua.boberproduction.wikigame.MainActivity
 import ua.boberproduction.wikigame.OnBackPressListener
@@ -25,15 +27,26 @@ import ua.boberproduction.wikigame.mvvm.pregame.PregameFragment
 class GameFragment : BaseFragment(), OnBackPressListener {
     private lateinit var binding: FragmentGameBinding
     lateinit var viewModel: GameViewModel
+    private var creationTime = 0L
 
     companion object {
         const val RESULTS = "results"
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        creationTime = System.currentTimeMillis()
+        super.onCreate(savedInstanceState)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_game, container, false)
         binding.setLifecycleOwner(this)
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        Timber.d("GameFragment init time: ${System.currentTimeMillis() - creationTime}")
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -70,6 +83,7 @@ class GameFragment : BaseFragment(), OnBackPressListener {
         NavHostFragment.findNavController(this).navigate(R.id.action_gameFragment_to_resultsFragment, bundle)
     }
 
+    @SuppressLint("SetJavaScriptEnabled")
     private fun configureWebView() {
         webview.webViewClient = object : WebViewClient() {
             // override link clicks.
@@ -84,6 +98,7 @@ class GameFragment : BaseFragment(), OnBackPressListener {
             }
         }
 
+        webview.settings.javaScriptEnabled = true
         webview.settings.cacheMode = WebSettings.LOAD_CACHE_ELSE_NETWORK
     }
 

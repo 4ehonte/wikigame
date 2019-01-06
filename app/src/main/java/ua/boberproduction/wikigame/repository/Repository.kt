@@ -9,10 +9,12 @@ interface DataRepository {
     fun getArticleHtml(articleName: String, locale: String): Single<Resource<String>>
     fun getSummary(articleName: String, locale: String): Single<Resource<String>>
     fun saveResult(result: Result)
+    fun getResults(): Single<List<Result>>
+    fun getTotalClicks(): Single<Int>
+    fun getTotalTime(): Single<Int>
 }
 
 interface PreferencesRepository {
-    fun getUserLevel(): Int
     fun getAppLocale(): Locale
     fun setTotalPoints(points: Int)
     fun getTotalPoints(): Int

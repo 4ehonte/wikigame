@@ -17,13 +17,21 @@
             app:exitAnim="@anim/exit_to_left"
             app:popEnterAnim="@anim/enter_from_left"
             app:popExitAnim="@anim/exit_to_right" />
+
+        <action
+            android:id="@+id/action_mainMenuFragment_to_statisticsFragment"
+            app:destination="@id/statisticsFragment"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/exit_to_left"
+            app:popEnterAnim="@anim/enter_from_left"
+            app:popExitAnim="@anim/exit_to_right" />
     </fragment>
 
     <fragment
         android:id="@+id/pregameFragment"
         android:name="ua.boberproduction.wikigame.mvvm.pregame.PregameFragment"
         android:label="PregameFragment"
-        tools:layout="@layout/fragment_pregame" >
+        tools:layout="@layout/fragment_pregame">
         <action
             android:id="@+id/action_pregameFragment_to_gameFragment"
             app:destination="@id/gameFragment"
@@ -38,7 +46,7 @@
         android:id="@+id/gameFragment"
         android:name="ua.boberproduction.wikigame.mvvm.game.GameFragment"
         android:label="GameFragment"
-        tools:layout="@layout/fragment_game" >
+        tools:layout="@layout/fragment_game">
         <action
             android:id="@+id/action_gameFragment_to_resultsFragment"
             app:destination="@id/resultsFragment"
@@ -53,7 +61,32 @@
         android:id="@+id/resultsFragment"
         android:name="ua.boberproduction.wikigame.mvvm.postgame.ResultsFragment"
         android:label="ResultsFragment"
-        tools:layout="@layout/fragment_results" >
+        tools:layout="@layout/fragment_results">
+
+        <action
+            android:id="@+id/action_resultsFragment_to_pregameFragment"
+            app:destination="@id/pregameFragment"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/exit_to_left"
+            app:popEnterAnim="@anim/enter_from_left"
+            app:popExitAnim="@anim/exit_to_right"
+            app:popUpTo="@id/mainMenuFragment" />
+
+        <action
+            android:id="@+id/action_resultsFragment_to_mainMenuFragment"
+            app:destination="@id/mainMenuFragment"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/exit_to_left"
+            app:popEnterAnim="@anim/enter_from_left"
+            app:popExitAnim="@anim/exit_to_right"
+            app:popUpTo="@id/mainMenuFragment" />
+
     </fragment>
+
+    <fragment
+        android:id="@+id/statisticsFragment"
+        android:name="ua.boberproduction.wikigame.mvvm.statistics.StatisticsFragment"
+        android:label="StatisticsFragment"
+        tools:layout="@layout/fragment_results" />
 
 </navigation>

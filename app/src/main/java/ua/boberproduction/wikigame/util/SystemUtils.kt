@@ -1,6 +1,5 @@
 package ua.boberproduction.wikigame.util
 
-import android.app.Activity
 import android.content.Context
 import android.graphics.PorterDuff
 import android.view.View
@@ -44,3 +43,12 @@ fun AppCompatActivity.showDialogFragment(tag: String, fragment: DialogFragment) 
 }
 
 fun Disposable.addToComposite(compositeDisposable: CompositeDisposable) = compositeDisposable.add(this)
+
+/**
+ * Get time in human readable format (mm:ss)
+ */
+fun getReadableTime(seconds: Int): String {
+    val minutes = seconds / 60
+    val secondsLeft = seconds % 60
+    return String.format("%02d:%02d", minutes, secondsLeft)
+}

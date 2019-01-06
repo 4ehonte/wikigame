@@ -27,8 +27,12 @@ class MainMenuFragment : BaseFragment() {
         viewModel = getViewModel()
         binding.viewModel = viewModel
 
-        viewModel.playBtnClick.observe(this, Observer {
+        viewModel.showPregame.observe(this, Observer {
             findNavController(this).navigate(R.id.action_mainMenuFragment_to_pregameFragment)
+        })
+
+        viewModel.showStatistics.observe(this, Observer {
+            findNavController(this).navigate(R.id.action_mainMenuFragment_to_statisticsFragment)
         })
     }
 

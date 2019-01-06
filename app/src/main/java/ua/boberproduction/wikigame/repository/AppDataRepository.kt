@@ -12,8 +12,9 @@ class AppDataRepository(private val wikiApi: WikiApi,
                         private val application: Application) : DataRepository {
 
     override fun saveResult(result: Result) {
-        gameDataBase.resultsDao().insert(ua.boberproduction.wikigame.repository.local.Result(result))
+        gameDataBase.resultsDao().insert(ua.boberproduction.wikigame.repository.local.Result.fromModel(result))
     }
+
 
     override fun getArticleHtml(articleName: String, locale: String): Single<Resource<String>> {
         return wikiApi.getArticleHtml(articleName)
@@ -44,4 +45,16 @@ class AppDataRepository(private val wikiApi: WikiApi,
                     } else Single.just(Resource.Success(summary))
                 }
     }
+
+    override fun getResults(): Single<List<Result>> {
+        return gameDataBase.resultsDao().getAll()
+                .toObservable()
+                .flatMapIterable { it }
+                .map { dbResult -> dbResult.mapToModel() }
+                .toList()
+    }
+
+    override fun getTotalClicks(): Single<Int> = gameDataBase.resultsDao().getTotalClicks()
+
+    override fun getTotalTime(): Single<Int> = gameDataBase.resultsDao().getTotalTime()
 }

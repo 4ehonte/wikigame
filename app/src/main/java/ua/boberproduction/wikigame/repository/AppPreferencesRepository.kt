@@ -20,6 +20,4 @@ class AppPreferencesRepository(context: Context) : PreferencesRepository {
 
     override fun getAppLocale(): Locale = Locale.forLanguageTag("en")
 
-    override fun getUserLevel(): Int = prefs.getInt(PREF_USER_LEVEL, 1)
-
 }

@@ -11,6 +11,7 @@ import ua.boberproduction.wikigame.mvvm.game.GameViewModel
 import ua.boberproduction.wikigame.mvvm.menu.MainMenuViewModel
 import ua.boberproduction.wikigame.mvvm.pregame.PregameViewModel
 import ua.boberproduction.wikigame.mvvm.postgame.ResultsViewModel
+import ua.boberproduction.wikigame.mvvm.statistics.StatisticsViewModel
 
 
 @Module
@@ -38,4 +39,9 @@ internal abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(ResultsViewModel::class)
     internal abstract fun bindResultsViewModel(resultsViewModel: ResultsViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(StatisticsViewModel::class)
+    internal abstract fun bindStatisticsViewModel(statisticsViewModel: StatisticsViewModel): ViewModel
 }

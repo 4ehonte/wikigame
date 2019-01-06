@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.NavHostFragment
 import kotlinx.android.synthetic.main.fragment_results.*
 import ua.boberproduction.wikigame.BaseFragment
 import ua.boberproduction.wikigame.R
@@ -60,6 +61,14 @@ class ResultsFragment : BaseFragment(), CircularLevelView.EventListener {
 
         viewModel.points.observe(this, Observer {
             points_tv.text = getString(R.string.points, it)
+        })
+
+        viewModel.playAgain.observe(this, Observer {
+            NavHostFragment.findNavController(this).navigate(R.id.action_resultsFragment_to_pregameFragment)
+        })
+
+        viewModel.goToMainMenu.observe(this, Observer {
+            NavHostFragment.findNavController(this).navigate(R.id.action_resultsFragment_to_mainMenuFragment)
         })
     }
 
