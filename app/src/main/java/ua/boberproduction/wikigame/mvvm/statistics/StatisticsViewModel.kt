@@ -69,7 +69,7 @@ class StatisticsViewModel @Inject constructor(
                 ).addTo(disposables)
     }
 
-    private fun loadResults() {
+    fun loadResults() {
         dataRepository.getResults()
                 .subscribeOn(schedulerProvider.io())
                 .subscribeBy(

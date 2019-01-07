@@ -28,6 +28,10 @@
     <string name="no">No</string>
     <string name="score_reset_successful">Game history has been reset</string>
     <string name="resume_game">Resume Game</string>
+    <string name="time">Time</string>
+    <string name="clicks">Clicks</string>
+    <string name="target_phrase">Target phrase</string>
+    <string name="start_phrase">Start phrase</string>
 
     <plurals name="clicks">
         <item quantity="one">%d Click</item>

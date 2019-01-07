@@ -151,7 +151,9 @@ class GameViewModel @Inject constructor(
     }
 
     fun onStop() {
-        showMenuDialog()
+        if (timer?.isRunning() == true) {
+            showMenuDialog()
+        }
     }
 
 }

@@ -10,6 +10,10 @@ import androidx.navigation.fragment.NavHostFragment.findNavController
 import ua.boberproduction.wikigame.BaseFragment
 import ua.boberproduction.wikigame.R
 import ua.boberproduction.wikigame.databinding.FragmentMainMenuBinding
+import android.content.Intent
+import android.net.Uri
+import org.chromium.base.BuildInfo.getPackageName
+
 
 class MainMenuFragment : BaseFragment() {
     lateinit var binding: FragmentMainMenuBinding
@@ -40,8 +44,18 @@ class MainMenuFragment : BaseFragment() {
         })
 
         viewModel.showPlayStore.observe(this, Observer {
-            // TODO: show Play Store listing
+            openPlayStore()
         })
+    }
+
+    private fun openPlayStore() {
+        val appPackageName = getPackageName(activity) // getPackageName() from Context or Activity object
+        try {
+            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=$appPackageName")))
+        } catch (anfe: android.content.ActivityNotFoundException) {
+            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=$appPackageName")))
+        }
+
     }
 
 }

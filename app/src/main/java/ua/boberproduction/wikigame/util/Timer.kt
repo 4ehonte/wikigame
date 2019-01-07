@@ -9,23 +9,25 @@ import java.util.concurrent.atomic.AtomicBoolean
 
 /**
  * Observable timer, emitting seconds up or down.
- * Can be paused, resumed and stopped.
+ * Can be paused, isResumed and isStopped.
  * Timer pauses when it reaches zero while counting down (or when [.stop] is called).
  */
 class Timer : Flowable<Long>() {
     var time: Long = 0
-    private val resumed = AtomicBoolean(true)
-    private val stopped = AtomicBoolean(false)
+    private val isResumed = AtomicBoolean(true)
+    private val isStopped = AtomicBoolean(false)
     private var flowable: Flowable<Long>? = null
 
     init {
         initializeFlowable()
     }
 
+    fun isRunning() = isResumed.get() && !isStopped.get()
+
     private fun initializeFlowable() {
         flowable = Flowable.interval(1, TimeUnit.SECONDS, Schedulers.computation())
-                .takeWhile { !stopped.get() }
-                .filter { resumed.get() }
+                .takeWhile { !isStopped.get() }
+                .filter { isResumed.get() }
                 .map { ++time }
     }
 
@@ -33,7 +35,7 @@ class Timer : Flowable<Long>() {
      * Timer stops emitting seconds until [.resume] is called.
      */
     fun pause() {
-        resumed.set(false)
+        isResumed.set(false)
     }
 
     /**
@@ -46,14 +48,14 @@ class Timer : Flowable<Long>() {
     }
 
     fun resume() {
-        resumed.set(true)
+        isResumed.set(true)
     }
 
     /**
      * Stop emitting seconds. This operation is irreversible, the timer cannot be started again.
      */
     fun stop() {
-        stopped.set(true)
+        isStopped.set(true)
     }
 
     fun addSeconds(seconds: Int) {
