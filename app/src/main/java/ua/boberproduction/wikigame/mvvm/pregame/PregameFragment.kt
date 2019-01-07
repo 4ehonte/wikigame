@@ -26,7 +26,6 @@ import ua.boberproduction.wikigame.databinding.FragmentPregameBinding
 import ua.boberproduction.wikigame.ioScope
 import ua.boberproduction.wikigame.util.showDialogFragment
 
-@ExperimentalCoroutinesApi
 class PregameFragment : BaseFragment() {
     lateinit var binding: FragmentPregameBinding
     lateinit var viewModel: PregameViewModel

@@ -34,6 +34,14 @@ class MainMenuFragment : BaseFragment() {
         viewModel.showStatistics.observe(this, Observer {
             findNavController(this).navigate(R.id.action_mainMenuFragment_to_statisticsFragment)
         })
+
+        viewModel.showSettings.observe(this, Observer {
+            findNavController(this).navigate(R.id.action_mainMenuFragment_to_settingsFragment)
+        })
+
+        viewModel.showPlayStore.observe(this, Observer {
+            // TODO: show Play Store listing
+        })
     }
 
 }

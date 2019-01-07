@@ -11,4 +11,5 @@ class AppResRepository(private val app: Application) : ResourcesRepository {
 
     override fun getRankNames(): Array<String> = app.resources.getStringArray(R.array.rank_names)
 
+    override fun getString(res: Int): String = app.resources.getString(res)
 }

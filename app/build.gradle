@@ -31,13 +31,18 @@ android {
     androidExtensions {
         experimental = true
     }
+
+    compileOptions {
+        sourceCompatibility 1.8
+        targetCompatibility 1.8
+    }
 }
 
 dependencies {
     def arch_components_version = '2.1.0-alpha01'
     def dagger2_version = '2.16'
     def retrofit_version = '2.4.0'
-    def anko_version = '0.10.5'
+    def anko_version = '0.10.8'
     def nav_version = "1.0.0-alpha09"
     def room_version = '2.1.0-alpha03'
     def moshi_version = "1.6.0"
@@ -110,4 +115,5 @@ dependencies {
     implementation 'com.github.jakob-grabner:Circle-Progress-View:v1.3'
     implementation 'org.xwalk:xwalk_core_library:23.53.589.4'
     implementation 'com.jakewharton.timber:timber:4.7.1'
+    implementation 'com.github.angads25:toggle:1.1.0'
 }

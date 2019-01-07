@@ -18,6 +18,15 @@
     <string name="time_total">Total time played: %s</string>
     <string name="btn_play_again">Play again</string>
     <string name="main_menu">Main menu</string>
+    <string name="font_size">Wiki font size</string>
+    <string name="reset">Reset and Clear history</string>
+    <string name="pref_sounds">Play sounds</string>
+    <string name="font_normal">Normal</string>
+    <string name="font_large">Large</string>
+    <string name="reset_score_alert">Do you really wish to clear all statistics and game history?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="score_reset_successful">Game history has been reset</string>
 
     <plurals name="clicks">
         <item quantity="one">%d Click</item>

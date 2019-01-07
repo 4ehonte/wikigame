@@ -8,6 +8,7 @@ import ua.boberproduction.wikigame.mvvm.menu.MainMenuFragment
 import ua.boberproduction.wikigame.mvvm.pregame.PregameFragment
 import ua.boberproduction.wikigame.mvvm.postgame.ResultsFragment
 import ua.boberproduction.wikigame.mvvm.pregame.InfoDialogFragment
+import ua.boberproduction.wikigame.mvvm.settings.SettingsFragment
 import ua.boberproduction.wikigame.mvvm.statistics.HistoryFragment
 import ua.boberproduction.wikigame.mvvm.statistics.StatisticsFragment
 
@@ -35,4 +36,7 @@ abstract class FragmentsProvider {
 
     @ContributesAndroidInjector
     internal abstract fun provideHistoryFragment(): HistoryFragment
+
+    @ContributesAndroidInjector
+    internal abstract fun provideSettingsFragment(): SettingsFragment
 }
