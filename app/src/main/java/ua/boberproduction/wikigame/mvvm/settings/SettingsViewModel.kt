@@ -1,5 +1,6 @@
 package ua.boberproduction.wikigame.mvvm.settings
 
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import ua.boberproduction.wikigame.R
 import ua.boberproduction.wikigame.repository.DataRepository
@@ -13,11 +14,18 @@ class SettingsViewModel @Inject constructor(
         private val preferencesRepository: PreferencesRepository,
         private val resourcesRepository: ResourcesRepository) : ViewModel() {
 
+    val fontZoomPref = MutableLiveData<Int>()
+    val enableSounds = MutableLiveData<Boolean>()
     val resetScoreAlertDialog = SingleLiveEvent<Unit>()
     val message by lazy { SingleLiveEvent<String>() }
 
+    fun loadCurrentPrefs() {
+        fontZoomPref.value = preferencesRepository.getFontZoom()
+        enableSounds.value = preferencesRepository.getSoundEnabled()
+    }
+
     fun onFontSizeToggled(isLarge: Boolean) {
-        val fontSize = if (isLarge) 16 else 12
+        val fontSize = if (isLarge) 130 else 100
         preferencesRepository.setFontSize(fontSize)
     }
 

@@ -27,6 +27,7 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="score_reset_successful">Game history has been reset</string>
+    <string name="resume_game">Resume Game</string>
 
     <plurals name="clicks">
         <item quantity="one">%d Click</item>

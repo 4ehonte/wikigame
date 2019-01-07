@@ -22,7 +22,7 @@ interface PreferencesRepository {
     fun setSoundEnabled(isEnabled: Boolean)
     fun getSoundEnabled(): Boolean
     fun setFontSize(fontSize: Int)
-    fun getFontSize(): Int
+    fun getFontZoom(): Int
 }
 
 interface ResourcesRepository {

@@ -1,6 +1,5 @@
 package ua.boberproduction.wikigame.mvvm.pregame
 
-import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Build
@@ -12,25 +11,19 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.DialogFragment
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import dagger.android.AndroidInjector
-import dagger.android.DispatchingAndroidInjector
-import dagger.android.support.AndroidSupportInjection
-import dagger.android.support.HasSupportFragmentInjector
+import dagger.android.DaggerDialogFragment
 import kotlinx.android.synthetic.main.fragment_info_dialog.*
+import ua.boberproduction.wikigame.BaseDialogFragment
 import ua.boberproduction.wikigame.R
 import ua.boberproduction.wikigame.databinding.FragmentInfoDialogBinding
 import ua.boberproduction.wikigame.di.ViewModelFactory
 import javax.inject.Inject
 
-class InfoDialogFragment : DialogFragment(), HasSupportFragmentInjector {
+class InfoDialogFragment : BaseDialogFragment() {
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
-    @Inject
-    lateinit var childFragmentInjector: DispatchingAndroidInjector<Fragment>
     lateinit var viewModel: PregameViewModel
     private lateinit var binding: FragmentInfoDialogBinding
     private lateinit var phrase: String
@@ -82,15 +75,5 @@ class InfoDialogFragment : DialogFragment(), HasSupportFragmentInjector {
         dialog?.window?.requestFeature(Window.FEATURE_NO_TITLE)
 
         return binding.root
-    }
-
-
-    override fun onAttach(context: Context) {
-        AndroidSupportInjection.inject(this)
-        super.onAttach(context)
-    }
-
-    override fun supportFragmentInjector(): AndroidInjector<Fragment>? {
-        return childFragmentInjector
     }
 }

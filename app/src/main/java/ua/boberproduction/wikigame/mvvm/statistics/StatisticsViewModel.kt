@@ -28,6 +28,7 @@ class StatisticsViewModel @Inject constructor(
     val userLevel = MutableLiveData<Int>()
     val points = MutableLiveData<Int>()
     val clicks = MutableLiveData<Int>()
+    val showHistory = SingleLiveEvent<Unit>()
     val totalTime = MutableLiveData<String>()
     val errorMessage = SingleLiveEvent<String>()
     val results by lazy { MutableLiveData<List<Result>>() }
@@ -77,9 +78,7 @@ class StatisticsViewModel @Inject constructor(
                 ).addTo(disposables)
     }
 
-    fun historyBtnClicked() {
-
-    }
+    fun historyBtnClicked() = showHistory.call()
 
     override fun onCleared() {
         super.onCleared()

@@ -20,7 +20,7 @@
         <Button
             android:id="@+id/btn_play"
             style="@style/MenuButton"
-            android:drawableStart="@drawable/ic_play_arrow"
+            android:drawableStart="@drawable/ic_play_arrow_dark"
             android:onClick="@{(v) -> viewModel.playBtnClicked()}"
             android:text="@string/btn_play"
             app:layout_constraintBottom_toTopOf="@id/btn_statistics"

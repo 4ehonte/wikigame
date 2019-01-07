@@ -11,10 +11,10 @@ import android.webkit.WebViewClient
 import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import kotlinx.android.synthetic.main.fragment_game.*
-import org.jetbrains.anko.AnkoLogger
-import org.jetbrains.anko.debug
 import timber.log.Timber
 import ua.boberproduction.wikigame.BaseFragment
 import ua.boberproduction.wikigame.MainActivity
@@ -22,9 +22,15 @@ import ua.boberproduction.wikigame.OnBackPressListener
 import ua.boberproduction.wikigame.R
 import ua.boberproduction.wikigame.databinding.FragmentGameBinding
 import ua.boberproduction.wikigame.models.Result
+import ua.boberproduction.wikigame.mvvm.pregame.InfoDialogFragment
 import ua.boberproduction.wikigame.mvvm.pregame.PregameFragment
+import ua.boberproduction.wikigame.repository.PreferencesRepository
+import ua.boberproduction.wikigame.util.showDialogFragment
+import javax.inject.Inject
 
 class GameFragment : BaseFragment(), OnBackPressListener {
+    @Inject
+    lateinit var preferencesRepository: PreferencesRepository
     private lateinit var binding: FragmentGameBinding
     lateinit var viewModel: GameViewModel
     private var creationTime = 0L
@@ -76,6 +82,14 @@ class GameFragment : BaseFragment(), OnBackPressListener {
         viewModel.showResults.observe(this, Observer {
             if (it != null) showResultsFragment(it)
         })
+
+        viewModel.showMenu.observe(this, Observer {
+            (activity as MainActivity).showDialogFragment(MenuDialogFragment.TAG, MenuDialogFragment())
+        })
+
+        viewModel.goToMainMenu.observe(this, Observer {
+            findNavController().navigateUp()
+        })
     }
 
     private fun showResultsFragment(result: Result) {
@@ -100,6 +114,7 @@ class GameFragment : BaseFragment(), OnBackPressListener {
 
         webview.settings.javaScriptEnabled = true
         webview.settings.cacheMode = WebSettings.LOAD_CACHE_ELSE_NETWORK
+        webview.settings.textZoom = preferencesRepository.getFontZoom()
     }
 
     // After the page has loaded, hide header, footer, and other irrelevant elements
@@ -116,9 +131,13 @@ class GameFragment : BaseFragment(), OnBackPressListener {
     }
 
     override fun onBackPressed(): Boolean {
-        return if (isVisible && webview.canGoBack()) {
-            webview.stopLoading()
-            webview.goBack()
+//        return if (isVisible && webview.canGoBack()) {
+//            webview.stopLoading()
+//            webview.goBack()
+//            true
+//        } else false
+        return if (viewModel.showMenu.value != true) {
+            viewModel.onMenuClick()
             true
         } else false
     }
@@ -129,4 +148,10 @@ class GameFragment : BaseFragment(), OnBackPressListener {
 
         super.onDestroyView()
     }
+
+    override fun onStop() {
+        viewModel.onStop()
+        super.onStop()
+    }
+
 }

@@ -28,15 +28,14 @@ class SettingsFragment : BaseFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = getViewModel()
+        viewModel.loadCurrentPrefs()
+
         binding.viewModel = viewModel
 
         back_button.setOnClickListener { activity?.onBackPressed() }
 
         pref_font_size_label.setOnClickListener { font_size_switch.isOn = !font_size_switch.isOn }
         pref_sounds_label.setOnClickListener { mute_switch.isOn = !mute_switch.isOn }
-
-        font_size_switch.setOnToggledListener { _, isOn -> viewModel.onFontSizeToggled(isOn) }
-        mute_switch.setOnToggledListener { _, isOn -> viewModel.onMuteToggled(isOn) }
 
         viewModel.resetScoreAlertDialog.observe(this, Observer {
             activity!!.alert(getString(R.string.reset_score_alert)) {
@@ -48,5 +47,16 @@ class SettingsFragment : BaseFragment() {
         viewModel.message.observe(this, Observer {
             activity!!.toast(it)
         })
+
+        viewModel.enableSounds.observe(this, Observer {
+            mute_switch.isOn = it
+        })
+
+        viewModel.fontZoomPref.observe(this, Observer {
+            font_size_switch.isOn = it != 100
+        })
+
+        font_size_switch.setOnToggledListener { _, isOn -> viewModel.onFontSizeToggled(isOn) }
+        mute_switch.setOnToggledListener { _, isOn -> viewModel.onMuteToggled(isOn) }
     }
 }

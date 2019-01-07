@@ -4,6 +4,8 @@ import android.app.Application
 import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
+import androidx.navigation.Navigation.findNavController
+import androidx.navigation.findNavController
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import org.jetbrains.anko.AnkoLogger
@@ -30,7 +32,9 @@ class GameViewModel @Inject constructor(
     val title = MutableLiveData<String>()
     val target = MutableLiveData<String>()
     val clicksCounter = MutableLiveData<Int>()
+    val goToMainMenu = SingleLiveEvent<Unit>()
     val time = MutableLiveData<String>()
+    val showMenu = MutableLiveData<Boolean>()
     val errorMessage = SingleLiveEvent<String>()
     val progressBarVisibility = SingleLiveEvent<Boolean>()
     val showResults = SingleLiveEvent<Result>()
@@ -124,4 +128,30 @@ class GameViewModel @Inject constructor(
                 ?: 0, timer?.time?.toInt() ?: 0, System.currentTimeMillis())
         showResults.value = result
     }
+
+    private fun showMenuDialog() {
+        if (showMenu.value != true) {
+            timer?.pause()
+            showMenu.value = true
+        }
+    }
+
+    fun onMenuClick() {
+        showMenuDialog()
+    }
+
+    fun onMainMenuBtnClicked() {
+        showMenu.value = false
+        goToMainMenu.call()
+    }
+
+    fun onMenuClosed() {
+        showMenu.value = false
+        timer?.resume()
+    }
+
+    fun onStop() {
+        showMenuDialog()
+    }
+
 }

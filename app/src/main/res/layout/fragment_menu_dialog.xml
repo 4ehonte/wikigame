@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="ua.boberproduction.wikigame.mvvm.game.GameViewModel" />
+    </data>
+
+    <LinearLayout
+        android:id="@+id/summary_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="32dp"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:paddingBottom="32dp"
+        android:layout_margin="18dp"
+        android:background="@drawable/menu_dialog_background"
+        android:gravity="center"
+        android:minWidth="300dp"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/btn_return_to_game"
+            style="@style/MenuButton"
+            android:drawableStart="@drawable/ic_play_arrow_dark"
+            android:text="@string/resume_game" />
+
+        <Button
+            android:id="@+id/btn_main_menu"
+            style="@style/MenuButton"
+            android:layout_marginTop="24dp"
+            android:drawableStart="@drawable/ic_menu_dark"
+            android:text="@string/main_menu" />
+
+    </LinearLayout>
+
+</layout>

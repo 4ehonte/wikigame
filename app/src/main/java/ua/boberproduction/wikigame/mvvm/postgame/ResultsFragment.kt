@@ -77,6 +77,8 @@ class ResultsFragment : BaseFragment(), CircularLevelView.EventListener {
     }
 
     private fun playSound(assetFileName: String) {
+        if (!preferencesRepository.getSoundEnabled()) return
+        
         try {
             val afd = activity!!.assets.openFd("sounds" + File.separator + assetFileName)
             val player = MediaPlayer()

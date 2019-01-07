@@ -4,6 +4,7 @@ package ua.boberproduction.wikigame.di
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import ua.boberproduction.wikigame.mvvm.game.GameFragment
+import ua.boberproduction.wikigame.mvvm.game.MenuDialogFragment
 import ua.boberproduction.wikigame.mvvm.menu.MainMenuFragment
 import ua.boberproduction.wikigame.mvvm.pregame.PregameFragment
 import ua.boberproduction.wikigame.mvvm.postgame.ResultsFragment
@@ -39,4 +40,7 @@ abstract class FragmentsProvider {
 
     @ContributesAndroidInjector
     internal abstract fun provideSettingsFragment(): SettingsFragment
+
+    @ContributesAndroidInjector
+    internal abstract fun provideMenuDialogFragment(): MenuDialogFragment
 }

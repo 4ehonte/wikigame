@@ -27,5 +27,5 @@ class AppPreferencesRepository(context: Context) : PreferencesRepository {
 
     override fun setFontSize(fontSize: Int) = prefs.edit().putInt(PREF_FONT_SIZE, fontSize).apply()
 
-    override fun getFontSize(): Int = prefs.getInt(PREF_FONT_SIZE, 12)
+    override fun getFontZoom(): Int = prefs.getInt(PREF_FONT_SIZE, 100)
 }
