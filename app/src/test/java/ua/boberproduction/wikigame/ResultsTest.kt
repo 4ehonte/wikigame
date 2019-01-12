@@ -1,8 +1,7 @@
 package ua.boberproduction.wikigame
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.artfulbits.fletch.util.TestPreferenceRepository
-import ua.boberproduction.wikigame.util.TestSchedulerProvider
+import ua.boberproduction.wikigame.util.TestPreferenceRepository
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
 import org.junit.Before
@@ -11,6 +10,7 @@ import org.junit.Test
 import ua.boberproduction.wikigame.models.Result
 import ua.boberproduction.wikigame.repository.DataRepository
 import ua.boberproduction.wikigame.mvvm.postgame.ResultsViewModel
+import ua.boberproduction.wikigame.util.TestCoroutineScopeProvider
 import ua.boberproduction.wikigame.util.TestResourceRepository
 
 class ResultsTest {
@@ -23,7 +23,7 @@ class ResultsTest {
 
     @Before
     fun before() {
-        viewModel = ResultsViewModel(repository, TestSchedulerProvider(), TestPreferenceRepository(), TestResourceRepository())
+        viewModel = ResultsViewModel(repository, TestPreferenceRepository(), TestCoroutineScopeProvider(), TestResourceRepository())
     }
 
     @Test

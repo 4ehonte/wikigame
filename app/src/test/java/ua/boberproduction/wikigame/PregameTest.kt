@@ -2,7 +2,7 @@ package ua.boberproduction.wikigame
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
-import com.artfulbits.fletch.util.TestPreferenceRepository
+import ua.boberproduction.wikigame.util.TestPreferenceRepository
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.argumentCaptor
 import com.nhaarman.mockito_kotlin.mock
@@ -14,6 +14,7 @@ import org.junit.Test
 import org.mockito.Mockito
 import ua.boberproduction.wikigame.mvvm.pregame.PregameViewModel
 import ua.boberproduction.wikigame.repository.DataRepository
+import ua.boberproduction.wikigame.util.TestResourceRepository
 import ua.boberproduction.wikigame.util.TestSchedulerProvider
 
 
@@ -29,7 +30,7 @@ class PregameTest {
     fun before() {
         Mockito.`when`(repository.getPhrases(any())).thenReturn(Single.just(listOf("Barcelona", "Spain", "Catalonia")))
 
-        viewModel = PregameViewModel(repository, TestSchedulerProvider(), TestPreferenceRepository())
+        viewModel = PregameViewModel(repository, TestSchedulerProvider(), TestPreferenceRepository(), TestResourceRepository())
     }
 
     @Test
@@ -38,6 +39,7 @@ class PregameTest {
         viewModel.phrases.observeForever(observer)
 
         viewModel.onCreate()
+
         argumentCaptor<Pair<String, String>>().apply {
             verify(observer).onChanged(capture())
 

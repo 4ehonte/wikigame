@@ -3,7 +3,7 @@ package ua.boberproduction.wikigame
 import android.app.Application
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
-import com.artfulbits.fletch.util.TestPreferenceRepository
+import ua.boberproduction.wikigame.util.TestPreferenceRepository
 import ua.boberproduction.wikigame.util.TestSchedulerProvider
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.argumentCaptor
@@ -22,6 +22,7 @@ import org.robolectric.annotation.Config
 import ua.boberproduction.wikigame.repository.DataRepository
 import ua.boberproduction.wikigame.repository.Resource
 import ua.boberproduction.wikigame.mvvm.game.GameViewModel
+import ua.boberproduction.wikigame.util.TestResourceRepository
 
 @RunWith(RobolectricTestRunner::class)
 @Config(application = Application::class, manifest = Config.NONE)
@@ -37,7 +38,7 @@ class GameTest {
     fun before() {
         Mockito.`when`(repository.getArticleHtml(any(), any())).thenReturn(Single.just(Resource.Success("<html> <body> <h1>My First Heading</h1> <p>My first paragraph.</p> </body> </html>")))
         val application = RuntimeEnvironment.application
-        viewModel = GameViewModel(repository, TestSchedulerProvider(), TestPreferenceRepository(), application)
+        viewModel = GameViewModel(repository, TestSchedulerProvider(), TestResourceRepository(), TestPreferenceRepository(), application)
     }
 
     @Test
@@ -54,7 +55,7 @@ class GameTest {
 
     @Test
     fun `after the first article is loaded, timer starts`() {
-        viewModel = GameViewModel(repository, TestSchedulerProvider(), TestPreferenceRepository(), application)
+        viewModel = GameViewModel(repository, TestSchedulerProvider(), TestResourceRepository(), TestPreferenceRepository(), application)
         assert(viewModel.timer == null || viewModel.timer!!.time == 0L)
 
         viewModel.pageLoaded("wikiurl", "wiki title")

@@ -8,6 +8,8 @@ import ua.boberproduction.wikigame.repository.*
 import ua.boberproduction.wikigame.repository.local.GameDataBase
 import ua.boberproduction.wikigame.repository.local.ResultsDao
 import ua.boberproduction.wikigame.repository.network.WikiApi
+import ua.boberproduction.wikigame.util.AppCoroutineScopeProvider
+import ua.boberproduction.wikigame.util.CoroutineScopeProvider
 import ua.boberproduction.wikigame.util.RxSchedulerProvider
 import ua.boberproduction.wikigame.util.SchedulerProvider
 import javax.inject.Singleton
@@ -17,11 +19,15 @@ class AppModule {
 
     @Provides
     @Singleton
-    fun providesDataRepository(apiService: WikiApi, dataBase: GameDataBase, application: Application): DataRepository = AppDataRepository(apiService, dataBase, application)
+    fun providesDataRepository(apiService: WikiApi, dataBase: GameDataBase, scopeProvider: CoroutineScopeProvider, application: Application): DataRepository = AppDataRepository(apiService, dataBase, scopeProvider, application)
 
     @Provides
     @Singleton
     fun provideSchedulerProvider(): SchedulerProvider = RxSchedulerProvider()
+
+    @Provides
+    @Singleton
+    fun provideScopeProvider(): CoroutineScopeProvider = AppCoroutineScopeProvider()
 
     @Provides
     @Singleton

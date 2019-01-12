@@ -4,13 +4,14 @@ import android.app.Application
 import io.reactivex.Single
 import kotlinx.coroutines.launch
 import ua.boberproduction.wikigame.R
-import ua.boberproduction.wikigame.ioScope
 import ua.boberproduction.wikigame.models.Result
 import ua.boberproduction.wikigame.repository.local.GameDataBase
 import ua.boberproduction.wikigame.repository.network.WikiApi
+import ua.boberproduction.wikigame.util.CoroutineScopeProvider
 
 class AppDataRepository(private val wikiApi: WikiApi,
                         private val gameDataBase: GameDataBase,
+                        private val scopeProvider: CoroutineScopeProvider,
                         private val application: Application) : DataRepository {
 
     override fun saveResult(result: Result) {
@@ -61,6 +62,6 @@ class AppDataRepository(private val wikiApi: WikiApi,
     override fun getTotalTime(): Single<Int> = gameDataBase.resultsDao().getTotalTime()
 
     override fun clearResults() {
-        ioScope.launch { gameDataBase.resultsDao().deleteAll() }
+        scopeProvider.io().launch { gameDataBase.resultsDao().deleteAll() }
     }
 }

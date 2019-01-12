@@ -8,22 +8,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.OvershootInterpolator
-import android.webkit.WebSettings
-import android.webkit.WebView
 import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.NavHostFragment
 import kotlinx.android.synthetic.main.fragment_pregame.*
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.launch
 import ua.boberproduction.wikigame.BaseFragment
 import ua.boberproduction.wikigame.MainActivity
 import ua.boberproduction.wikigame.R
 import ua.boberproduction.wikigame.databinding.FragmentPregameBinding
-import ua.boberproduction.wikigame.ioScope
 import ua.boberproduction.wikigame.util.showDialogFragment
 
 class PregameFragment : BaseFragment() {

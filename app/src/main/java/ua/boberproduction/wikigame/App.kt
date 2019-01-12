@@ -10,9 +10,6 @@ import kotlinx.coroutines.launch
 import timber.log.Timber
 import ua.boberproduction.wikigame.di.DaggerAppComponent
 
-val ioScope = CoroutineScope(Dispatchers.IO)
-val uiScope = CoroutineScope(Dispatchers.Main)
-
 class App : DaggerApplication(), HasActivityInjector {
 
     override fun onCreate() {
@@ -25,7 +22,7 @@ class App : DaggerApplication(), HasActivityInjector {
 
     // Workaround to preload WebView native libraries in background to avoid UI lag when GameFragment is initialized
     private fun preloadWebView() {
-        ioScope.launch { WebSettings.getDefaultUserAgent(applicationContext) }
+        CoroutineScope(Dispatchers.IO).launch { WebSettings.getDefaultUserAgent(applicationContext) }
     }
 
     override fun applicationInjector(): AndroidInjector<out DaggerApplication> {
